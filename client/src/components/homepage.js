@@ -1,11 +1,19 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import volcano from '../volcano.png';
+import Roster from './roster';
 
 const Homepage = () => {
     const [leagues, setLeagues] = useState([])
     const [season, setSeason] = useState('2022')
 
+    const showRoster = (e) => {
+        let l = leagues
+        l.filter(x => x.owner_id === e).map(league => {
+            league.isRosterHidden = !league.isRosterHidden
+        })
+        setLeagues([...l])
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,25 +42,34 @@ const Homepage = () => {
             <tbody>
                 <tr>
                     <th></th>
-                    <th colSpan={1}>Username</th>
+                    <th colSpan={3}>Username</th>
                     <th></th>
-                    <th colSpan={2}>League</th>
-                    <th>Record</th>
-                    <th>Fantasy Points</th>
-                    <th>Fantasy Points Against</th>
+                    <th colSpan={4}>League</th>
+                    <th colSpan={2}>Record</th>
+                    <th colSpan={2}>Fantasy Points</th>
+                    <th colSpan={2}>Fantasy Points Against</th>
                 </tr>
-                {leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts || b.fpts_against - a.fpts_against).map(league =>
-                    <tr key={league.owner_id}>
-                        <td><img className='thumbnail' alt={league.username} src={league.user_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.user_avatar}`} /></td>
-                        <td colSpan={1}>{league.username}</td>
-                        <td><img className='thumbnail' alt={league.league_name} src={`https://sleepercdn.com/avatars/${league.league_avatar}`} /></td>
-                        <td colSpan={2}>{league.league_name}</td>
-                        <td>{league.wins}-{league.losses}</td>
-                        <td>{league.fpts.toLocaleString("en-US")}</td>
-                        <td>{league.fpts_against.toLocaleString("en-US")}</td>
-                    </tr>
-                )}
             </tbody>
+            {leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts || b.fpts_against - a.fpts_against || b.owner_id - a.owner_id).map(league =>
+                <tbody key={league.owner_id}>
+                    <tr className={league.isRosterHidden === true ? 'hover clickable' : 'active clickable'} onDoubleClick={() => showRoster(league.owner_id)}>
+                        <td><img className='thumbnail' alt={league.username} src={league.user_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.user_avatar}`} /></td>
+                        <td colSpan={3}>{league.username}</td>
+                        <td><img className='thumbnail' alt={league.league_name} src={`https://sleepercdn.com/avatars/${league.league_avatar}`} /></td>
+                        <td colSpan={4}>{league.league_name}</td>
+                        <td colSpan={2}>{league.wins}-{league.losses}</td>
+                        <td colSpan={2}>{league.fpts.toLocaleString("en-US")}</td>
+                        <td colSpan={2}>{league.fpts_against.toLocaleString("en-US")}</td>
+                    </tr>
+                    {league.isRosterHidden === true ? null : 
+                        <tr className='expanded'>
+                            <td colSpan={15}>
+                                <Roster roster={league} />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            )}
         </table>
     </>
 }

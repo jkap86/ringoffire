@@ -4,13 +4,19 @@ h1 {
     filter: brightness(2);
 }
 
-table.main {
+table.main, table.secondary {
     width: 90%;
     table-layout: fixed;
     margin: auto;
     text-align: center;
+    border-spacing: 0;
 }
-
+table.main th {
+    color: var(--fourth-color);
+}
+table.secondary td {
+    vertical-align: top;
+}
 img.thumbnail {
     width: 4em;
     border-radius: 50%;
@@ -27,6 +33,7 @@ button.nav {
     color: var(--secondary-color);
     font-weight: 900;
     font-size: 125%;
+    border: unset;
     border-radius: 1em;
     box-shadow: inset 0 0 2em var(--primary-color);
     cursor: pointer;
@@ -34,6 +41,23 @@ button.nav {
 button.active_nav {
     background-color: var(--third-color);
     border: .1em solid var(--fourth-color);
-    filter: brightness(2);
-    
+    filter: brightness(2);  
+}
+.clickable {
+    cursor: pointer;
+}
+tbody.active {
+    border: 1em solid var(--fourth-color);
+}
+tr.hover:hover, tr.active {
+    background-color: var(--fourth-color);
+    color: var(--third-color);
+    font-weight: 900;
+}
+table.secondary {
+    border: .25em solid var(--fourth-color);
+    padding: 1em;
+}
+table.secondary th {
+    color: var(--third-color);
 }

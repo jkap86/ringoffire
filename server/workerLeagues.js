@@ -21,7 +21,8 @@ const getLeagues = async (season) => {
                 losses: roster.settings.losses,
                 ties: roster.settings.ties,
                 fpts: parseFloat(roster.settings.fpts + '.' + roster.settings.fpts_decimal),
-                fpts_against: roster.settings.fpts_against === undefined ? 0 : parseFloat(roster.settings.fpts_against + '.' + roster.settings.fpts_against_decimal)
+                fpts_against: roster.settings.fpts_against === undefined ? 0 : parseFloat(roster.settings.fpts_against + '.' + roster.settings.fpts_against_decimal),
+                isRosterHidden: true
             })
         })
     }))
