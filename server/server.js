@@ -9,6 +9,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+app.get('/dynastyvalues', async (req, res) => {
+	const pool = workerpool.pool(__dirname + '/workerDV.js')
+	const result = await pool.exec('getDynastyValues')
+	res.send(result)
+})
+
 app.get('/leagues', async (req, res) => {
     const season = req.query.season
     const poolLeagues = workerpool.pool(__dirname + '/workerLeagues.js')

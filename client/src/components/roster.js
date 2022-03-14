@@ -16,12 +16,26 @@ const Roster = (props) => {
             })
         )
     ).flat(2)
-    console.log(picks)
 
+    const roster_value = roster === undefined ? 0 : roster.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0)
+    const picks_value = roster === undefined ? 0 : picks.reduce((acc, cur) => acc + parseInt(props.matchPick(cur.season, cur.round)), 0)
     return roster === undefined ? <h1>Loading...</h1> :
         <>
             <table className="secondary">
                 <tbody>
+                    <tr>
+                        <th></th>
+                        <th className="values">
+                            Roster: {roster_value.toLocaleString("en-US")}
+                        </th>
+                        <th className="values">
+                            Picks: {picks_value.toLocaleString("en-US")}
+                        </th>
+                        <th className="values">
+                            Total: {parseInt(roster_value + picks_value).toLocaleString("en-US")}
+                        </th>
+                        <th></th>
+                    </tr>
                     <tr>
                         <th>Starters</th>
                         <th>Bench</th>
@@ -32,9 +46,14 @@ const Roster = (props) => {
                     <tr>
                         <td>
                             {roster.starters.map(starter =>
-                                <p>{starter === '0' ? 'empty' : allPlayers[starter].position + " " +
-                                    allPlayers[starter].first_name + " " + allPlayers[starter].last_name + " " +
-                                    (allPlayers[starter].team === null ? 'FA' : allPlayers[starter].team)}</p>
+                                <p>
+                                    {starter === '0' ? 'empty' : allPlayers[starter].position + " " +
+                                        allPlayers[starter].first_name + " " + allPlayers[starter].last_name + " " +
+                                        (allPlayers[starter].team === null ? 'FA' : allPlayers[starter].team)}
+                                    <em>
+                                        : {props.matchPlayer(starter)}
+                                    </em>
+                                </p>
                             )}
                         </td>
                         <td>
@@ -42,28 +61,48 @@ const Roster = (props) => {
                                 roster.starters.includes(player) || (roster.reserve !== null && roster.reserve.includes(player)) ||
                                     (roster.taxi !== null && roster.taxi.includes(player)) ?
                                     null :
-                                    <p>{allPlayers[player].position + " " +
-                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
-                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}</p>
+                                    <p>
+                                        {allPlayers[player].position + " " +
+                                            allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
+                                            (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
+                                        <em>
+                                            : {props.matchPlayer(player)}
+                                        </em>
+                                    </p>
                             )}
                         </td>
                         <td>
                             {roster.reserve === null ? null : roster.reserve.map(player =>
-                                <p>{allPlayers[player].position + " " +
-                                    allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
-                                    (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}</p>
+                                <p>
+                                    {allPlayers[player].position + " " +
+                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
+                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
+                                    <em>
+                                        : {props.matchPlayer(player)}
+                                    </em>
+                                </p>
                             )}
                         </td>
                         <td>
                             {roster.taxi === null ? null : roster.taxi.map(player =>
-                                <p>{allPlayers[player].position + " " +
-                                    allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
-                                    (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}</p>
+                                <p>
+                                    {allPlayers[player].position + " " +
+                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
+                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
+                                    <em>
+                                        : {props.matchPlayer(player)}
+                                    </em>
+                                </p>
                             )}
                         </td>
                         <td>
-                            {picks.map(pick => 
-                                <p>{`${pick.season} Round: ${pick.round}`}</p>  
+                            {picks.map(pick =>
+                                <p>
+                                    {`${pick.season} Round: ${pick.round}`}
+                                    <em>
+                                        : {props.matchPick(pick.season, pick.round)}
+                                    </em>
+                                </p>
                             )}
                         </td>
                     </tr>

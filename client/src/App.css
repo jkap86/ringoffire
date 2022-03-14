@@ -63,3 +63,7 @@ table.secondary {
 table.secondary th {
     color: var(--third-color);
 }
+table.secondary th.values {
+    color: var(--fourth-color);
+    padding: 1em 0;
+}
