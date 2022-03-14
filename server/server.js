@@ -16,9 +16,16 @@ app.get('/dynastyvalues', async (req, res) => {
 })
 
 app.get('/leagues', async (req, res) => {
+	const season = req.query.season
+	const poolLeagues = workerpool.pool(__dirname + '/workerLeagues.js')
+	const result = await poolLeagues.exec('getLeagues', [season])
+	res.send(result)
+})
+
+app.get('/standings', async (req, res) => {
     const season = req.query.season
-    const poolLeagues = workerpool.pool(__dirname + '/workerLeagues.js')
-    const result = await poolLeagues.exec('getLeagues', [season])
+    const poolLeagues = workerpool.pool(__dirname + '/workerStandings.js')
+    const result = await poolLeagues.exec('getStandings', [season])
     res.send(result)
 })
 

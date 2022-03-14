@@ -59,39 +59,38 @@ const getDraftPicks = async (league, rosters, users, traded_picks_current, draft
     return original_picks
 }
 
-const getLeagues = async (season) => {
+const getStandings = async (season) => {
     const leagues = await axios.get(`https://api.sleeper.app/v1/user/435483482039250944/leagues/nfl/${season}`)
-    let leaguesROF = []
-    await Promise.all(leagues.data.filter(x => x.name.includes('Ring of Fire: ')).map(async league => {
-        let [rosters, users, traded_picks_current, drafts] = await Promise.all([
+    let leaguesROF = leagues.data.filter(x => x.name.includes('Ring of Fire: '))
+    let rostersROF = []
+    await Promise.all(leaguesROF.map(async league => {
+        const [rosters, users, traded_picks_current, drafts] = await Promise.all([
             await axios.get(`https://api.sleeper.app/v1/league/${league.league_id}/rosters`),
             await axios.get(`https://api.sleeper.app/v1/league/${league.league_id}/users`),
             await axios.get(`https://api.sleeper.app/v1/league/${league.league_id}/traded_picks`),
             await axios.get(`https://api.sleeper.app/v1/league/${league.league_id}/drafts`)
-
         ])
         let draft_picks = await getDraftPicks(league, rosters.data, users.data, traded_picks_current.data, drafts.data)
-        rosters = rosters.data.map(roster => {
-            return {
+        rosters.data.map(roster => {
+            rostersROF.push({
                 ...roster,
                 draft_picks: draft_picks[roster.roster_id],
+                league_name: league.name,
+                league_avatar: league.avatar,
                 username: roster.owner_id > 0 ? users.data.find(x => x.user_id === roster.owner_id).display_name : 'orphan',
-                avatar: roster.owner_id > 0 ? users.data.find(x => x.user_id === roster.owner_id).avatar : null,
+                user_avatar: roster.owner_id > 0 ? users.data.find(x => x.user_id === roster.owner_id).avatar : null,
+                wins: roster.settings.wins,
+                losses: roster.settings.losses,
+                ties: roster.settings.ties,
+                fpts: parseFloat(roster.settings.fpts + '.' + roster.settings.fpts_decimal),
+                fpts_against: roster.settings.fpts_against === undefined ? 0 : parseFloat(roster.settings.fpts_against + '.' + roster.settings.fpts_against_decimal),
                 isRosterHidden: true
-            }
-        })
-        leaguesROF.push({
-            ...league,
-            rosters: rosters,
-            isRostersHidden: true
+            })
         })
     }))
-    return leaguesROF
+    return rostersROF
 }
 
-
-
-
 workerpool.worker({
-    getLeagues: getLeagues
+    getStandings: getStandings
 })

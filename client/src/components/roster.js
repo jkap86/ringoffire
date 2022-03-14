@@ -46,7 +46,7 @@ const Roster = (props) => {
                     <tr>
                         <td>
                             {roster.starters.map(starter =>
-                                <p>
+                                <p className="hover">
                                     {starter === '0' ? 'empty' : allPlayers[starter].position + " " +
                                         allPlayers[starter].first_name + " " + allPlayers[starter].last_name + " " +
                                         (allPlayers[starter].team === null ? 'FA' : allPlayers[starter].team)}
@@ -57,11 +57,11 @@ const Roster = (props) => {
                             )}
                         </td>
                         <td>
-                            {roster.players.map(player =>
+                            {roster.players.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
                                 roster.starters.includes(player) || (roster.reserve !== null && roster.reserve.includes(player)) ||
                                     (roster.taxi !== null && roster.taxi.includes(player)) ?
                                     null :
-                                    <p>
+                                    <p className="hover">
                                         {allPlayers[player].position + " " +
                                             allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
                                             (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
@@ -72,8 +72,8 @@ const Roster = (props) => {
                             )}
                         </td>
                         <td>
-                            {roster.reserve === null ? null : roster.reserve.map(player =>
-                                <p>
+                            {roster.reserve === null ? null : roster.reserve.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
+                                <p className="hover">
                                     {allPlayers[player].position + " " +
                                         allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
                                         (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
@@ -84,8 +84,8 @@ const Roster = (props) => {
                             )}
                         </td>
                         <td>
-                            {roster.taxi === null ? null : roster.taxi.map(player =>
-                                <p>
+                            {roster.taxi === null ? null : roster.taxi.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
+                                <p className="hover">
                                     {allPlayers[player].position + " " +
                                         allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
                                         (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
@@ -97,7 +97,7 @@ const Roster = (props) => {
                         </td>
                         <td>
                             {picks.map(pick =>
-                                <p>
+                                <p className="hover">
                                     {`${pick.season} Round: ${pick.round}`}
                                     <em>
                                         : {props.matchPick(pick.season, pick.round)}

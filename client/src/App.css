@@ -4,7 +4,7 @@ h1 {
     filter: brightness(2);
 }
 
-table.main, table.secondary {
+table.main, table.secondary, table.leagues_users {
     width: 100%;
     max-width: 1200px;
     table-layout: fixed;
@@ -12,6 +12,7 @@ table.main, table.secondary {
     text-align: center;
     border-spacing: 0;
 }
+
 table.main th {
     color: var(--fourth-color);
 }
@@ -30,8 +31,8 @@ div.nav_container {
 }
 button.nav {
     background-color: var(--fourth-color);
-    width: 5em;
-    height: 2em;
+    width: fit-content;
+    padding: .5em;
     color: var(--secondary-color);
     font-weight: 900;
     font-size: 125%;
@@ -43,7 +44,8 @@ button.nav {
 button.active_nav {
     background-color: var(--third-color);
     border: .1em solid var(--fourth-color);
-    filter: brightness(2);  
+    filter: brightness(2);
+    margin: .5em;  
 }
 .clickable {
     cursor: pointer;
@@ -51,7 +53,7 @@ button.active_nav {
 tbody.active {
     border: 1em solid var(--fourth-color);
 }
-tr.hover:hover, tr.active {
+tr.hover:hover, tr.active, p.hover:hover {
     background-color: var(--fourth-color);
     color: var(--third-color);
     font-weight: 900;
@@ -66,4 +68,31 @@ table.secondary th {
 table.secondary th.values {
     color: var(--fourth-color);
     padding: 1em 0;
+}
+ul, ol {
+    list-style: none;
+}
+div.leaguewrapper {
+    position: relative;
+    width: 100%;
+    margin: 5em auto;
+}
+div.leaguewrapper > img {
+    position: absolute;
+    width: 5em;
+    margin: auto;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: -1;
+    filter: brightness(.5);  
+}
+div.leaguewrapper > p {
+    color: var(--fourth-color);
+    text-shadow: 0 0 .25em var(--third-color);
+    filter: brightness(2);
+    font-weight: 900;
+    font-size: 125%;
 }
