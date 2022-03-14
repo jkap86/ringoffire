@@ -13,8 +13,10 @@ const getLeagues = async (season) => {
         rosters.data.map(roster => {
             rostersROF.push({
                 ...roster,
-                league: league.name,
+                league_name: league.name,
+                league_avatar: league.avatar,
                 username: roster.owner_id > 0 ? users.data.find(x => x.user_id === roster.owner_id).display_name : 'orphan',
+                user_avatar: roster.owner_id > 0 ? users.data.find(x => x.user_id === roster.owner_id).avatar : null,
                 wins: roster.settings.wins,
                 losses: roster.settings.losses,
                 ties: roster.settings.ties,

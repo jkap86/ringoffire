@@ -1,1 +1,39 @@
+h1 {
+    text-align: center;
+    color: var(--third-color);
+    filter: brightness(2);
+}
 
+table.main {
+    width: 90%;
+    table-layout: fixed;
+    margin: auto;
+    text-align: center;
+}
+
+img.thumbnail {
+    width: 4em;
+    border-radius: 50%;
+}
+
+div.nav_container {
+    width: fit-content;
+    margin: auto;
+}
+button.nav {
+    background-color: var(--fourth-color);
+    width: 5em;
+    height: 2em;
+    color: var(--secondary-color);
+    font-weight: 900;
+    font-size: 125%;
+    border-radius: 1em;
+    box-shadow: inset 0 0 2em var(--primary-color);
+    cursor: pointer;
+}
+button.active_nav {
+    background-color: var(--third-color);
+    border: .1em solid var(--fourth-color);
+    filter: brightness(2);
+    
+}
