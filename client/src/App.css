@@ -5,7 +5,8 @@ h1 {
 }
 
 table.main, table.secondary {
-    width: 90%;
+    width: 100%;
+    max-width: 1200px;
     table-layout: fixed;
     margin: auto;
     text-align: center;
@@ -16,6 +17,7 @@ table.main th {
 }
 table.secondary td {
     vertical-align: top;
+    font-size: 85%;
 }
 img.thumbnail {
     width: 4em;

@@ -17,15 +17,15 @@ const Homepage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const getLeagues = async () => {
+            const getLeagues = async (league_season) => {
                 const l = await axios.get('/leagues', {
                     params: {
-                        season: season
+                        season: league_season
                     }
                 })
                 return l.data
             }
-            const l = await getLeagues()
+            const l = await getLeagues(season)
             setLeagues(l)
         }
         fetchData()
@@ -46,8 +46,8 @@ const Homepage = () => {
                     <th></th>
                     <th colSpan={4}>League</th>
                     <th colSpan={2}>Record</th>
-                    <th colSpan={2}>Fantasy Points</th>
-                    <th colSpan={2}>Fantasy Points Against</th>
+                    <th colSpan={2}>FP</th>
+                    <th colSpan={2}>FPA</th>
                 </tr>
             </tbody>
             {leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts || b.fpts_against - a.fpts_against || b.owner_id - a.owner_id).map(league =>
