@@ -1,0 +1,26 @@
+const express = require('express')
+const path = require('path')
+const app = express()
+const cors = require('cors')
+const axios = require('axios')
+const workerpool = require('workerpool')
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.get('/leagues', async (req, res) => {
+    const season = req.query.season
+    const poolLeagues = workerpool.pool(__dirname + '/workerLeagues.js')
+    const result = await poolLeagues.exec('getLeagues', [season])
+    res.send(result)
+})
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, '../client/build/index.html'));
+})
+
+const port = process.env.PORT || 5000
+app.listen(port, () => {
+	console.log(`server running on port ${port}`);
+});
