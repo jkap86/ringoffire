@@ -33,7 +33,7 @@ const Leagues = (props) => {
                         <td>
                             <div className="leaguewrapper">
                                 <img className="thumbnail" alt={league.name} src={`https://sleepercdn.com/avatars/${league.avatar}`} />
-                                <p>{league.name}</p>
+                                <p className="league">{league.name}</p>
                             </div>
                         </td>
                         <td></td>

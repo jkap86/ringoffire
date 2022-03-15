@@ -3,10 +3,13 @@ import { useState, useEffect } from 'react';
 import Standings from './standings';
 import allPlayers from '../allPlayers.json';
 import Leagues from './leagues';
+import Drafts from './drafts';
+import Players from './players';
 
 const Homepage = () => {
     const [leagues, setLeagues] = useState({ '2022': [], '2021': [] })
     const [standings, setStandings] = useState({ '2022': [], '2021': [] })
+    const [drafts, setDrafts] = useState({ '2022': [], '2021': [] })
     const [season, setSeason] = useState('2022')
     const [tab, setTab] = useState('Leagues')
     const [dv, setDv] = useState([])
@@ -18,7 +21,6 @@ const Homepage = () => {
         })
         setStandings({ ...standings, [season]: [...l] })
     }
-
     const matchPlayer = (player) => {
         if (player === '0') {
             return null
@@ -38,6 +40,50 @@ const Homepage = () => {
         return value
     }
 
+    const findOccurences = (players) => {
+        const playersOccurences = []
+        players.forEach(player => {
+            const index = playersOccurences.findIndex(obj => {
+                return obj.player === player.player
+            })
+            if (index === -1) {
+                playersOccurences.push({
+                    player: player.player,
+                    count: 1,
+                    dynasty_value: matchPlayer(player.player),
+                    isLeaguesHidden: true,
+                    wins: player.roster.settings.wins,
+                    losses: player.roster.settings.losses,
+                    ties: player.roster.settings.ties,
+                    leagues: [{
+                        league_name: player.league.name,
+                        league_avatar: player.league.avatar,
+                        owner_name: player.roster.username,
+                        owner_avatar: player.roster.avatar,
+                        wins: player.roster.settings.wins,
+                        losses: player.roster.settings.losses,
+                        ties: player.roster.settings.ties
+                    }]
+                })
+            } else {
+                playersOccurences[index].count++
+                playersOccurences[index].wins = playersOccurences[index].wins + player.roster.settings.wins
+                playersOccurences[index].losses = playersOccurences[index].losses + player.roster.settings.losses
+                playersOccurences[index].ties = playersOccurences[index].ties + player.roster.settings.ties
+                playersOccurences[index].leagues.push({
+                    league_name: player.league.name,
+                    league_avatar: player.league.avatar,
+                    owner_name: player.roster.username,
+                    owner_avatar: player.roster.avatar,
+                    wins: player.roster.settings.wins,
+                    losses: player.roster.settings.losses,
+                    ties: player.roster.settings.ties
+                })
+            }
+        })
+
+        return playersOccurences
+    }
     useEffect(() => {
         const fetchData = async () => {
             const getDynastyValues = async () => {
@@ -61,45 +107,87 @@ const Homepage = () => {
                 })
                 return l.data
             }
-            const [l, pl, s, ps] = await Promise.all([
-                await getLeagues('2022'),
-                await getLeagues('2021'),
-                await getStandings('2022'),
-                await getStandings('2021')
-            ])
+            const l = await getLeagues('2022')
+            const pl = await getLeagues('2021')
             setLeagues({ '2022': l, '2021': pl })
+            const getDrafts = async (league_season) => {
+                const d = await axios.get(`/drafts`, {
+                    params: {
+                        season: league_season
+                    }
+                })
+                return d.data
+            }
+            const [s, ps, d, pd] = await Promise.all([
+                await getStandings('2022'),
+                await getStandings('2021'),
+                await getDrafts('2022'),
+                await getDrafts('2021')
+            ])
             setStandings({ '2022': s, '2021': ps })
+            setDrafts({ '2022': d, '2021': pd })
         }
         fetchData()
     }, [])
+    let players = leagues[season].length <= 0 ? [] : leagues[season].map(league => {
+        return league.rosters.map(roster => {
+            return roster.players.map(player => {
+                return {
+                    league: league,
+                    roster: roster,
+                    player: player
+                }
+            })
+        })
+    }).flat(2)
 
-    console.log(leagues)
+    players = findOccurences(players)
 
     return <>
-        <h1>Ring of Fire</h1>
         <div className='nav_container'>
             <button className={season === '2022' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2022')}>2022</button>
             <button className={season === '2021' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2021')}>2021</button>
         </div>
+        <h1>Ring of Fire</h1>
         <div className='nav_container'>
             <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
             <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
+            <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
+            <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
         </div>
+
         <div hidden={tab === 'Leagues' ? false : true}>
-            <Leagues
-                leagues={leagues[season]}
-                matchPlayer={matchPlayer}
-                matchPick={matchPick}
-            />
+            {leagues[season].length > 0 ?
+                <Leagues
+                    leagues={leagues[season]}
+                    matchPlayer={matchPlayer}
+                    matchPick={matchPick}
+                />
+                : <h1>Loading...</h1>
+            }
         </div>
 
         <div hidden={tab === 'Standings' ? false : true}>
-            <Standings
-                leagues={standings[season]}
-                showRoster={showRoster}
-                matchPlayer={matchPlayer}
-                matchPick={matchPick}
-            />
+            {standings[season].length > 0 ?
+                <Standings
+                    leagues={standings[season]}
+                    showRoster={showRoster}
+                    matchPlayer={matchPlayer}
+                    matchPick={matchPick}
+                />
+                : <h1>Loading...</h1>
+            }
+        </div>
+
+        <div hidden={tab === 'Players' ? false : true}>
+            <Players players={players} />
+        </div>
+
+        <div hidden={tab === 'Drafts' ? false : true}>
+            {drafts[season].length > 0 ?
+                <Drafts drafts={drafts[season]} />
+                : <h1>Loading...</h1>
+            }
         </div>
     </>
 }

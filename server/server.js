@@ -29,6 +29,13 @@ app.get('/standings', async (req, res) => {
     res.send(result)
 })
 
+app.get('/drafts', async (req, res) => {
+	const season = req.query.season
+	const poolDrafts = workerpool.pool(__dirname + '/workerDrafts.js')
+	const result = await poolDrafts.exec('getDrafts', [season])
+	res.send(result)
+})
+
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/build/index.html'));
 })
