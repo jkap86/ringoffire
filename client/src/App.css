@@ -57,6 +57,16 @@ tr.hover:hover, tr.active, p.hover:hover {
     background-color: var(--fourth-color);
     color: var(--third-color);
 }
+tr.hover2:hover, tr.active2 {
+    background-color: var(--fourth-color);
+}
+tr.hover2:hover p.league, tr.active2 p.league {
+    color: var(--third-color);
+}
+tr.hover2:hover p.draft_status, tr.active2 p.draft_status {
+    color: var(--secondary-color);
+    text-shadow: 0 0 .25em var(--third-color)
+}
 table.secondary {
     border: .25em solid var(--fourth-color);
     padding: 1em;
@@ -85,10 +95,10 @@ div.leaguewrapper > img {
     right: 0;
     bottom: 0;
     top: 0;
-    z-index: -1;
+    z-index: 0;
     filter: brightness(.5);  
 }
-div.leaguewrapper > p.league {
+p.league {
     color: var(--fourth-color);
     text-shadow: 0 0 .25em var(--secondary-color), 0 0 .5em var(--third-color);
     filter: brightness(2);
@@ -107,4 +117,10 @@ div.round_row {
 table.round {
     margin: 1em;
     font-size: 85%;
+}
+tr.draft_picks {
+    height: 50em;
+    display: block;
+    overflow-y: scroll;
+    border: .5em solid var(--fourth-color);
 }
