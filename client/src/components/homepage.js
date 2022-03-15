@@ -185,7 +185,7 @@ const Homepage = () => {
 
         <div hidden={tab === 'Drafts' ? false : true}>
             {drafts[season].length > 0 ?
-                <Drafts drafts={drafts[season]} />
+                <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
                 : <h1>Loading...</h1>
             }
         </div>

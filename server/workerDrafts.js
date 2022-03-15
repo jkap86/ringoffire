@@ -16,8 +16,10 @@ const getDrafts = async (season) => {
                 league_id: league.league_id,
                 league_avatar: league.avatar,
                 league_name: league.name,
+                total_rosters: league.total_rosters,
                 draft: draft_info.data,
-                picks: draft_picks.data
+                picks: draft_picks.data,
+                isPicksHidden: true
             })
         }))
     }))

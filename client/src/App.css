@@ -56,7 +56,6 @@ tbody.active {
 tr.hover:hover, tr.active, p.hover:hover {
     background-color: var(--fourth-color);
     color: var(--third-color);
-    font-weight: 900;
 }
 table.secondary {
     border: .25em solid var(--fourth-color);
@@ -101,4 +100,11 @@ p.draft_status {
     filter: brightness(2);
     font-weight: 900;
     text-shadow: 0 0 .25em var(--secondary-color);
+}
+div.round_row {
+    display: inline-flex;
+}
+table.round {
+    margin: 1em;
+    font-size: 85%;
 }
