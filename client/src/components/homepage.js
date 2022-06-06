@@ -144,6 +144,7 @@ const Homepage = () => {
     players = findOccurences(players)
 
     return <>
+        <div className='table_container'>
         <div className='nav_container'>
             <button className={season === '2022' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2022')}>2022</button>
             <button className={season === '2021' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2021')}>2021</button>
@@ -188,6 +189,7 @@ const Homepage = () => {
                 <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
                 : <h1>Loading...</h1>
             }
+        </div>
         </div>
     </>
 }

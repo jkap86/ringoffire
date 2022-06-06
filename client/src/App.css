@@ -11,8 +11,20 @@ table.main, table.secondary, table.leagues_users {
     margin: auto;
     text-align: center;
     border-spacing: 0;
+    color: var(--fourth-color);
 }
-
+div.table_container {
+    background-image: url('fire.png');
+    background-size: cover;
+    background-position: center bottom;
+    display: block;
+    overflow: scroll;
+    height: 75em;
+}
+table.secondary td > p {
+    margin: auto;
+    width: fit-content;
+}
 table.main th {
     color: var(--fourth-color);
 }
@@ -21,6 +33,10 @@ table.secondary td {
 }
 img.thumbnail {
     width: 4em;
+    border-radius: 50%;
+}
+img.thumbnail_small {
+    width: 2em;
     border-radius: 50%;
 }
 
@@ -70,7 +86,9 @@ tr.hover2:hover p.draft_status, tr.active2 p.draft_status {
 table.secondary {
     border: .25em solid var(--fourth-color);
     padding: 1em;
+    font-size: 85%;
 }
+
 table.secondary th {
     color: var(--third-color);
 }
@@ -117,10 +135,33 @@ div.round_row {
 table.round {
     margin: 1em;
     font-size: 85%;
+    border: .25em solid var(--secondary-color);
+    border-spacing: 0;
 }
 tr.draft_picks {
     height: 50em;
     display: block;
     overflow-y: scroll;
     border: .5em solid var(--fourth-color);
+}
+.left {
+    text-align: left;
+}
+.top {
+    vertical-align: top;
+}
+p.hover.left {
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: 1em;
+}
+p.hover.left:hover {
+    overflow: scroll;
+    font-weight: 900;
+}
+td.picks > p {
+    padding: .5em;
+}
+p.header {
+    font-weight: 900;
 }

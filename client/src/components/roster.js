@@ -1,5 +1,6 @@
 import { useState } from "react";
 import allPlayers from '../allPlayers.json';
+import volcano from '../volcano.png';
 
 const Roster = (props) => {
     const [roster, setRoster] = useState()
@@ -24,29 +25,27 @@ const Roster = (props) => {
             <table className="secondary">
                 <tbody>
                     <tr>
-                        <th></th>
-                        <th className="values">
+                        <th colSpan={2} className="values">
                             Roster: {roster_value.toLocaleString("en-US")}
                         </th>
-                        <th className="values">
+                        <th colSpan={2} className="values">
                             Picks: {picks_value.toLocaleString("en-US")}
                         </th>
-                        <th className="values">
+                        <th colSpan={2} className="values">
                             Total: {parseInt(roster_value + picks_value).toLocaleString("en-US")}
                         </th>
-                        <th></th>
                     </tr>
                     <tr>
-                        <th>Starters</th>
-                        <th>Bench</th>
-                        <th>IR</th>
-                        <th>Taxi</th>
-                        <th>Picks</th>
-                    </tr>
-                    <tr>
-                        <td>
+                        <td colSpan={2} className="top">
+                            <p className="header">Starters</p>
                             {roster.starters.map(starter =>
-                                <p className="hover">
+                                <p className="hover left">
+                                    <img
+                                        className="thumbnail"
+                                        alt="headshot"
+                                        src={`https://sleepercdn.com/content/nfl/players/thumb/${starter}.jpg`}
+                                        onError={(e) => { return e.target.src = volcano }}
+                                    />
                                     {starter === '0' ? 'empty' : allPlayers[starter].position + " " +
                                         allPlayers[starter].first_name + " " + allPlayers[starter].last_name + " " +
                                         (allPlayers[starter].team === null ? 'FA' : allPlayers[starter].team)}
@@ -56,12 +55,19 @@ const Roster = (props) => {
                                 </p>
                             )}
                         </td>
-                        <td>
+                        <td colSpan={2} className="top">
+                            <p className="header">Bench</p>
                             {roster.players.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
                                 roster.starters.includes(player) || (roster.reserve !== null && roster.reserve.includes(player)) ||
                                     (roster.taxi !== null && roster.taxi.includes(player)) ?
                                     null :
-                                    <p className="hover">
+                                    <p className="hover left">
+                                        <img
+                                            className="thumbnail"
+                                            alt="headshot"
+                                            src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}
+                                            onError={(e) => { return e.target.src = volcano }}
+                                        />
                                         {allPlayers[player].position + " " +
                                             allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
                                             (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
@@ -71,33 +77,10 @@ const Roster = (props) => {
                                     </p>
                             )}
                         </td>
-                        <td>
-                            {roster.reserve === null ? null : roster.reserve.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
-                                <p className="hover">
-                                    {allPlayers[player].position + " " +
-                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
-                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
-                                    <em>
-                                        : {props.matchPlayer(player)}
-                                    </em>
-                                </p>
-                            )}
-                        </td>
-                        <td>
-                            {roster.taxi === null ? null : roster.taxi.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
-                                <p className="hover">
-                                    {allPlayers[player].position + " " +
-                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
-                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
-                                    <em>
-                                        : {props.matchPlayer(player)}
-                                    </em>
-                                </p>
-                            )}
-                        </td>
-                        <td>
+                        <td rowSpan={1} colSpan={2} className="top picks">
+                            <p className="header">Draft Picks</p>
                             {picks.map(pick =>
-                                <p className="hover">
+                                <p className="hover left">
                                     {`${pick.season} Round: ${pick.round}`}
                                     <em>
                                         : {props.matchPick(pick.season, pick.round)}
@@ -105,6 +88,49 @@ const Roster = (props) => {
                                 </p>
                             )}
                         </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2} className="top">
+                            <p className="header">Taxi</p>
+                            {roster.taxi === null ? null : roster.taxi.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
+                                <p className="hover left">
+                                    <img
+                                        className="thumbnail"
+                                        alt="headshot"
+                                        src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}
+                                        onError={(e) => { return e.target.src = volcano }}
+                                    />
+                                    {allPlayers[player].position + " " +
+                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
+                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
+                                    <em>
+                                        : {props.matchPlayer(player)}
+                                    </em>
+                                </p>
+                            )}
+                        </td>
+                        <td colSpan={2} className="top">
+                            <p className="header">IR</p>
+                            {roster.reserve === null ? null : roster.reserve.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
+                                <p className="hover left">
+                                    <img
+                                        className="thumbnail"
+                                        alt="headshot"
+                                        src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}
+                                        onError={(e) => { return e.target.src = volcano }}
+                                    />
+                                    {allPlayers[player].position + " " +
+                                        allPlayers[player].first_name + " " + allPlayers[player].last_name + " " +
+                                        (allPlayers[player].team === null ? 'FA' : allPlayers[player].team)}
+                                    <em>
+                                        : {props.matchPlayer(player)}
+                                    </em>
+                                </p>
+                            )}
+                        </td>
+                    </tr>
+                    <tr>
+
                     </tr>
                 </tbody>
             </table>

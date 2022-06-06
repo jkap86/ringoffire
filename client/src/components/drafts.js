@@ -40,9 +40,9 @@ const Drafts = (props) => {
                                                     <tr>
                                                         <th>R</th>
                                                         <th>P</th>
-                                                        <th>Manager</th>
+                                                        <th colSpan={2}>Manager</th>
                                                         <th>Pos</th>
-                                                        <th>Player</th>
+                                                        <th colSpan={2}>Player</th>
                                                         <th>Value</th>
                                                     </tr>
                                                     : null
@@ -51,9 +51,11 @@ const Drafts = (props) => {
                                                     <tr className="hover">
                                                         <td>{pick.round}</td>
                                                         <td>{(pick.pick_no % draft.total_rosters) === 0 ? draft.total_rosters : (pick.pick_no % draft.total_rosters)}</td>
-                                                        <td>{pick.picked_by}</td>
+                                                        <td><img className="thumbnail_small" alt="avatar" src={pick.picked_by_avatar === null ? volcano : `https://sleepercdn.com/avatars/${pick.picked_by_avatar}`} /></td>
+                                                        <td className="left">{pick.picked_by}</td>
                                                         <td>{allPlayers[pick.player_id].position}</td>
-                                                        <td>
+                                                        <td><img className="thumbnail_small" alt='headshot' src={`https://sleepercdn.com/content/nfl/players/thumb/${pick.player_id}.jpg`} onError={(e) => { return e.target.src = volcano }} /></td>
+                                                        <td className="left">
                                                             {allPlayers[pick.player_id].first_name + " " + allPlayers[pick.player_id].last_name +
                                                                 " " + (allPlayers[pick.player_id].team === null ? 'FA' : allPlayers[pick.player_id].team)}
                                                         </td>

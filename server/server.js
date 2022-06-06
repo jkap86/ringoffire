@@ -4,10 +4,20 @@ const app = express()
 const cors = require('cors')
 const axios = require('axios')
 const workerpool = require('workerpool')
+const fs = require('fs')
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+const getAllPlayers = async () => {
+    let allplayers = await axios.get('https://api.sleeper.app/v1/players/nfl', { timeout: 3000 })
+    let ap = JSON.stringify(allplayers.data)
+	fs.writeFileSync('../client/src/allPlayers.json', ap)
+}
+getAllPlayers()
+setInterval(getAllPlayers, 1000 * 60 * 60 * 24)
+
 
 app.get('/dynastyvalues', async (req, res) => {
 	const pool = workerpool.pool(__dirname + '/workerDV.js')
