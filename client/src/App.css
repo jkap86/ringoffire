@@ -2,7 +2,7 @@ h1 {
     text-align: center;
     color: var(--third-color);
     filter: brightness(2);
-    text-shadow: 0 0 .25em var(--fourth-color);
+    text-shadow: 0 0 .25em #fefcc9, .1em -.1em .25em #feec85, -.1em -.1em .75em #ffae34, .2em -.2em 1em #ec760c, -.2em -.6em .75em #cd4606, 0 -.3em 1em #973716, .1em -.9em 1.25em #451b0e;
 }
 h5 {
     width: fit-content;
@@ -37,7 +37,7 @@ table.main, table.secondary, table.leagues_users {
     border-spacing: 0;
     color: var(--fourth-color);
     text-shadow: 0 0 .25em var(--secondary-color);
-    background-color: rgba(90, 79, 79, 0.15);
+    background-color: rgba(90, 79, 79, 0.5);
 }
 div.table_container {
     background-image: url('fire.png');
@@ -45,7 +45,7 @@ div.table_container {
     background-position: center bottom;
     display: block;
     overflow: scroll;
-    height: 75em;
+    height: 100vh;
 }
 table.secondary td > p {
     margin: auto;
@@ -198,6 +198,7 @@ p.hover.left {
     overflow: scroll;
     margin-left: 0;
     box-shadow: 0 0 .5em var(--fifth-color);
+    -ms-overflow-style: none;
 }
 td.picks > p {
     padding: .5em;

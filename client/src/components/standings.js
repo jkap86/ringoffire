@@ -53,42 +53,49 @@ const Standings = (props) => {
                         transition={{ duration: 1, type: "spring" }}
                         className={league.isRosterHidden === true ? 'hover clickable' : 'active clickable'}
                     >
-                        <AnimatePresence exitBeforeEnter>
-                            <motion.tr
-                                className={league.isRosterHidden === true ? 'hover clickable' : 'active clickable'}
-                                onClick={() => props.showRoster(league.owner_id)}
-                            >
-                                <td>
-                                    <motion.img
-                                        animate={{ rotate: 360 }}
-                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
-                                        className='thumbnail'
-                                        alt={league.username}
-                                        src={league.user_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.user_avatar}`}
-                                    />
-                                </td>
-                                <td colSpan={3}>{league.username}</td>
-                                <td>
-                                    <motion.img
-                                        animate={{ rotate: 360 }}
-                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
-                                        className='thumbnail'
-                                        alt={league.league_name}
-                                        src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
-                                    />
-                                </td>
-                                <td colSpan={4}>{league.league_name}</td>
-                                <td colSpan={2}>{league.wins}-{league.losses}</td>
-                                <td colSpan={2}>{league.fpts.toLocaleString("en-US")}</td>
-                                <td colSpan={2}>{league.fpts_against.toLocaleString("en-US")}</td>
-                            </motion.tr>
-                        </AnimatePresence>
+                        <motion.tr
+                            className={league.isRosterHidden === true ? 'hover clickable' : 'active clickable'}
+                            onClick={() => props.showRoster(league.owner_id)}
+                        >
+                            <td>
+                                <motion.img
+                                    animate={{ rotate: 360 }}
+                                    transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                    className='thumbnail'
+                                    alt={league.username}
+                                    src={league.user_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.user_avatar}`}
+                                />
+                            </td>
+                            <td colSpan={3}>{league.username}</td>
+                            <td>
+                                <motion.img
+                                    animate={{ rotate: 360 }}
+                                    transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                    className='thumbnail'
+                                    alt={league.league_name}
+                                    src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
+                                />
+                            </td>
+                            <td colSpan={4}>{league.league_name}</td>
+                            <td colSpan={2}>{league.wins}-{league.losses}</td>
+                            <td colSpan={2}>{league.fpts.toLocaleString("en-US")}</td>
+                            <td colSpan={2}>{league.fpts_against.toLocaleString("en-US")}</td>
+                        </motion.tr>
                         {league.isRosterHidden === true ? null :
-                            <tr className='expanded'>
-                                <td colSpan={15}>
-                                    <Roster roster={league} matchPlayer={props.matchPlayer} matchPick={props.matchPick} />
-                                </td>
-                            </tr>
+                            <AnimatePresence>
+                                <motion.tr
+                                    key={league.owner_id}
+                                    initial={{ y: 900 }}
+                                    animate={{ y: 0 }}
+                                    exit={{ y: 900 }}
+                                    transition={{ duration: 1, type: "spring" }}
+                                    className='expanded'
+                                >
+                                    <td colSpan={15}>
+                                        <Roster roster={league} matchPlayer={props.matchPlayer} matchPick={props.matchPick} />
+                                    </td>
+                                </motion.tr>
+                            </AnimatePresence>
                         }
                     </motion.tbody>
                 </AnimatePresence>

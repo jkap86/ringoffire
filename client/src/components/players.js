@@ -54,8 +54,14 @@ const Players = (props) => {
                     <th>Record</th>
                 </tr>
             </tbody>
-            {players.filter(x => x.isPlayerHidden === false).sort((a, b) => b.dynasty_value - a.dynasty_value).map(player =>
-                <tbody>
+            {players.filter(x => x.isPlayerHidden === false).sort((a, b) => b.dynasty_value - a.dynasty_value).map((player, index) =>
+                <motion.tbody
+                    key={index}
+                    initial={{ y: 900 }}
+                    animate={{ y: 0 }}
+                    exit={{ y: 900 }}
+                    transition={{ duration: 1, type: "spring" }}
+                >
                     <tr className={player.isLeaguesHidden ? 'hover clickable' : 'active clickable'} key={player.player} onClick={(e) => showLeagues(player.player)}>
                         <td>
                             <motion.img
@@ -76,7 +82,13 @@ const Players = (props) => {
                         <td>{player.wins}-{player.losses}</td>
                     </tr>
                     {player.isLeaguesHidden === true ? null :
-                        <tr>
+                        <motion.tr
+                            key={index}
+                            initial={{ y: 900 }}
+                            animate={{ y: 0 }}
+                            exit={{ y: 900 }}
+                            transition={{ duration: 1, type: "spring" }}
+                        >
                             <td colSpan={4}>
                                 <table className="secondary">
                                     <tbody>
@@ -115,9 +127,9 @@ const Players = (props) => {
                                     </tbody>
                                 </table>
                             </td>
-                        </tr>
+                        </motion.tr>
                     }
-                </tbody>
+                </motion.tbody>
             )}
 
         </table>

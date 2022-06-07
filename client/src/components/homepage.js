@@ -164,7 +164,7 @@ const Homepage = () => {
             </h1>
             <div className='nav_container'>
                 <motion.button
-                    className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} 
+                    className={tab === 'Leagues' ? 'active_nav nav' : 'nav'}
                     onClick={() => setTab('Leagues')}
                 >
                     Leagues
@@ -187,23 +187,26 @@ const Homepage = () => {
                 </div>
                 : null
             }
-
-            <div hidden={tab === 'Standings' ? false : true}>
-                {standings[season].length > 0 ?
-                    <Standings
-                        leagues={standings[season]}
-                        showRoster={showRoster}
-                        matchPlayer={matchPlayer}
-                        matchPick={matchPick}
-                    />
-                    : <h1>Loading...</h1>
-                }
-            </div>
-
-            <div hidden={tab === 'Players' ? false : true}>
-                <Players players={players} />
-            </div>
-
+            {tab === 'Standings' ?
+                <div hidden={tab === 'Standings' ? false : true}>
+                    {standings[season].length > 0 ?
+                        <Standings
+                            leagues={standings[season]}
+                            showRoster={showRoster}
+                            matchPlayer={matchPlayer}
+                            matchPick={matchPick}
+                        />
+                        : <h1>Loading...</h1>
+                    }
+                </div>
+                : null
+            }
+            {tab === 'Players' ?
+                <div hidden={tab === 'Players' ? false : true}>
+                    <Players players={players} />
+                </div>
+                : null
+            }
             {tab === 'Drafts' ?
                 <div>
                     {drafts[season].length > 0 ?
