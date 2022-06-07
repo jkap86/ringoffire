@@ -26,6 +26,7 @@ const getDrafts = async (season) => {
                         picked_by_avatar: users.data.find(x => x.user_id === pick.picked_by).avatar
                     }
                 }),
+                isDraftHidden: false,
                 isPicksHidden: true
             })
         }))

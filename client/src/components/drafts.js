@@ -1,6 +1,8 @@
 import { useState } from "react";
 import volcano from '../volcano.png';
 import allPlayers from '../allPlayers.json';
+import Search from "./search";
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 const Drafts = (props) => {
@@ -15,20 +17,54 @@ const Drafts = (props) => {
         setDrafts([...d])
     }
 
+    const getSearched = (data) => {
+        const d = drafts
+        if (data) {
+            d.map(draft => {
+                return draft.isDraftHidden = true
+            })
+            d.filter(x => x.league_name === data).map(draft => {
+                return draft.isDraftHidden = false
+            })
+        } else {
+            d.map(draft => {
+                return draft.isDraftHidden = false
+            })
+        }
+        setDrafts([...d])
+    }
 
     return <>
+        <Search
+            list={drafts.map(draft => draft.league_name)}
+            placeholder="Search Drafts"
+            sendSearched={getSearched}
+        />
         <table className="main">
-            {drafts.map(draft =>
-                <tbody>
-                    <tr className={draft.isPicksHidden ? 'hover2' : 'active2'}>
+            {drafts.filter(x => x.isDraftHidden === false).sort((a, b) => a.league_name > b.league_name ? 1 : -1).map(draft =>
+                <AnimatePresence>
+                <motion.tbody> 
+                    <motion.tr
+                        key={draft.league_name}
+                        initial={{ y: 900 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: 900 }}
+                        transition={{ duration: 1, type: "spring" }}
+                        className={draft.isPicksHidden ? 'hover2' : 'active2'}>
                         <td>
-                            <div onDoubleClick={() => showPicks(draft.draft.draft_id)} className="leaguewrapper clickable">
-                                <img className="thumbnail" alt={draft.league_name} src={`https://sleepercdn.com/avatars/${draft.league_avatar}`} />
+                            <div onClick={() => showPicks(draft.draft.draft_id)} className="leaguewrapper clickable">
+                                <motion.img
+                                    animate={{ rotate: 360 }}
+                                    transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                    className="thumbnail"
+                                    alt={draft.league_name}
+                                    src={`https://sleepercdn.com/avatars/${draft.league_avatar}`}
+                                />
                                 <p className="league">{draft.league_name}</p>
                                 <p className="draft_status">{draft.draft.status.replace('_', '')}</p>
                             </div>
                         </td>
-                    </tr>
+                    </motion.tr>
                     {draft.isPicksHidden === true || draft.picks.length < 1 ? null :
                         <tr className="draft_picks">
                             <td>
@@ -71,7 +107,8 @@ const Drafts = (props) => {
                             </td>
                         </tr>
                     }
-                </tbody>
+                </motion.tbody>
+                </AnimatePresence>
             )}
         </table>
     </>

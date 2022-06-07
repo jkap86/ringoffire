@@ -1,6 +1,8 @@
 import { useState } from "react";
 import volcano from '../volcano.png';
 import allPlayers from '../allPlayers.json';
+import Search from "./search";
+import { motion } from 'framer-motion';
 
 const Players = (props) => {
     const [players, setPlayers] = useState([])
@@ -14,7 +16,35 @@ const Players = (props) => {
         setPlayers([...p])
     }
 
+    const getSearched = (data) => {
+        let p = players
+        if (data) {
+            p.map(player => {
+                return player.isPlayerHidden = true
+            })
+            p.filter(x => {
+                const team = allPlayers[x.player].team === null ? 'FA' : allPlayers[x.player].team
+                return `${allPlayers[x.player].full_name} ${allPlayers[x.player].position} ${team}` === data
+            }).map(player => {
+                return player.isPlayerHidden = false
+            })
+        } else {
+            p.map(player => {
+                return player.isPlayerHidden = false
+            })
+        }
+        setPlayers([...p])
+    }
+
     return <>
+        <Search
+            list={players.map(player => {
+                const team = allPlayers[player.player].team === null ? 'FA' : allPlayers[player.player].team
+                return `${allPlayers[player.player].full_name} ${allPlayers[player.player].position} ${team}`
+            })}
+            placeholder="Search Players"
+            sendSearched={getSearched}
+        />
         <table className="main">
             <tbody>
                 <tr>
@@ -24,10 +54,19 @@ const Players = (props) => {
                     <th>Record</th>
                 </tr>
             </tbody>
-            {players.sort((a, b) => b.dynasty_value - a.dynasty_value).map(player =>
+            {players.filter(x => x.isPlayerHidden === false).sort((a, b) => b.dynasty_value - a.dynasty_value).map(player =>
                 <tbody>
-                    <tr className={player.isLeaguesHidden ? 'hover clickable' : 'active clickable'} key={player.player} onDoubleClick={(e) => showLeagues(player.player)}>
-                        <td><img className="thumbnail" alt={player.player} src={`https://sleepercdn.com/content/nfl/players/thumb/${player.player}.jpg`} onError={(e) => { return e.target.src = volcano }} /></td>
+                    <tr className={player.isLeaguesHidden ? 'hover clickable' : 'active clickable'} key={player.player} onClick={(e) => showLeagues(player.player)}>
+                        <td>
+                            <motion.img
+                                animate={{ rotate: 360 }}
+                                transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                className="thumbnail"
+                                alt={player.player}
+                                src={`https://sleepercdn.com/content/nfl/players/thumb/${player.player}.jpg`}
+                                onError={(e) => { return e.target.src = volcano }}
+                            />
+                        </td>
                         <td>
                             {allPlayers[player.player].position + " " + allPlayers[player.player].first_name + " " +
                                 allPlayers[player.player].last_name + " " + (allPlayers[player.player].team === null ? 'FA' :
@@ -48,15 +87,31 @@ const Players = (props) => {
                                             <th colSpan={2}>Owner</th>
                                             <th colSpan={2}>Record</th>
                                         </tr>
-                                        {player.leagues.map(league => 
+                                        {player.leagues.map(league =>
                                             <tr className="hover">
-                                                <td><img className="thumbnail" alt={league.league_name} src={`https://sleepercdn.com/avatars/${league.league_avatar}`} /></td>
+                                                <td>
+                                                    <motion.img
+                                                        animate={{ rotate: 360 }}
+                                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                        className="thumbnail"
+                                                        alt={league.league_name}
+                                                        src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
+                                                    />
+                                                </td>
                                                 <td colSpan={3}>{league.league_name}</td>
-                                                <td><img className="thumbnail" alt={league.owner_name} src={league.owner_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.owner_avatar}`} /></td>
+                                                <td>
+                                                    <motion.img
+                                                        animate={{ rotate: 360 }}
+                                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                        className="thumbnail"
+                                                        alt={league.owner_name}
+                                                        src={league.owner_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.owner_avatar}`}
+                                                    />
+                                                </td>
                                                 <td colSpan={2}>{league.owner_name}</td>
                                                 <td colSpan={2}>{league.wins}-{league.losses}</td>
                                             </tr>
-                                            )}
+                                        )}
                                     </tbody>
                                 </table>
                             </td>

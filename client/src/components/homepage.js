@@ -5,6 +5,8 @@ import allPlayers from '../allPlayers.json';
 import Leagues from './leagues';
 import Drafts from './drafts';
 import Players from './players';
+import volcano from '../volcano.png';
+import { motion } from 'framer-motion';
 
 const Homepage = () => {
     const [leagues, setLeagues] = useState({ '2022': [], '2021': [] })
@@ -52,6 +54,7 @@ const Homepage = () => {
                     count: 1,
                     dynasty_value: matchPlayer(player.player),
                     isLeaguesHidden: true,
+                    isPlayerHidden: false,
                     wins: player.roster.settings.wins,
                     losses: player.roster.settings.losses,
                     ties: player.roster.settings.ties,
@@ -145,51 +148,66 @@ const Homepage = () => {
 
     return <>
         <div className='table_container'>
-        <div className='nav_container'>
-            <button className={season === '2022' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2022')}>2022</button>
-            <button className={season === '2021' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2021')}>2021</button>
-        </div>
-        <h1>Ring of Fire</h1>
-        <div className='nav_container'>
-            <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
-            <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
-            <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
-            <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
-        </div>
+            <div className='nav_container'>
+                <button className={season === '2022' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2022')}>2022</button>
+                <button className={season === '2021' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2021')}>2021</button>
+            </div>
+            <h1>
+                <motion.div
+                    animate={{ rotateY: 360 }}
+                    transition={{ repeat: Infinity, duration: 10 }}
+                    className='title_container'
+                >
+                    <img className='title_picture' alt='volcano' src={volcano} />
+                    <p className='title'>Ring of Fire</p>
+                </motion.div>
+            </h1>
+            <div className='nav_container'>
+                <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
+                <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
+                <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
+                <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
+            </div>
 
-        <div hidden={tab === 'Leagues' ? false : true}>
-            {leagues[season].length > 0 ?
-                <Leagues
-                    leagues={leagues[season]}
-                    matchPlayer={matchPlayer}
-                    matchPick={matchPick}
-                />
-                : <h1>Loading...</h1>
+            {tab === 'Leagues' ?
+                <div>
+                    {leagues[season].length > 0 ?
+                        <Leagues
+                            leagues={leagues[season]}
+                            matchPlayer={matchPlayer}
+                            matchPick={matchPick}
+                        />
+                        : <h1>Loading...</h1>
+                    }
+                </div>
+                : null
             }
-        </div>
 
-        <div hidden={tab === 'Standings' ? false : true}>
-            {standings[season].length > 0 ?
-                <Standings
-                    leagues={standings[season]}
-                    showRoster={showRoster}
-                    matchPlayer={matchPlayer}
-                    matchPick={matchPick}
-                />
-                : <h1>Loading...</h1>
+            <div hidden={tab === 'Standings' ? false : true}>
+                {standings[season].length > 0 ?
+                    <Standings
+                        leagues={standings[season]}
+                        showRoster={showRoster}
+                        matchPlayer={matchPlayer}
+                        matchPick={matchPick}
+                    />
+                    : <h1>Loading...</h1>
+                }
+            </div>
+
+            <div hidden={tab === 'Players' ? false : true}>
+                <Players players={players} />
+            </div>
+
+            {tab === 'Drafts' ?
+                <div>
+                    {drafts[season].length > 0 ?
+                        <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
+                        : <h1>Loading...</h1>
+                    }
+                </div>
+                : null
             }
-        </div>
-
-        <div hidden={tab === 'Players' ? false : true}>
-            <Players players={players} />
-        </div>
-
-        <div hidden={tab === 'Drafts' ? false : true}>
-            {drafts[season].length > 0 ?
-                <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
-                : <h1>Loading...</h1>
-            }
-        </div>
         </div>
     </>
 }

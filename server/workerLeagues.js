@@ -83,6 +83,7 @@ const getLeagues = async (season) => {
         leaguesROF.push({
             ...league,
             rosters: rosters,
+            isLeagueHidden: false,
             isRostersHidden: true
         })
     }))

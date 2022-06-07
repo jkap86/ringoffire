@@ -84,6 +84,7 @@ const getStandings = async (season) => {
                 ties: roster.settings.ties,
                 fpts: parseFloat(roster.settings.fpts + '.' + roster.settings.fpts_decimal),
                 fpts_against: roster.settings.fpts_against === undefined ? 0 : parseFloat(roster.settings.fpts_against + '.' + roster.settings.fpts_against_decimal),
+                isLeagueHidden: false,
                 isRosterHidden: true
             })
         })

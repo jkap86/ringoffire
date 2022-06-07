@@ -2,8 +2,32 @@ h1 {
     text-align: center;
     color: var(--third-color);
     filter: brightness(2);
+    text-shadow: 0 0 .25em var(--fourth-color);
 }
-
+h5 {
+    width: fit-content;
+    margin: 5em auto;
+}
+input[type="text"] {
+    padding: .5em;
+    background-color: var(--third-color);
+    color: var(--fourth-color);
+    font-weight: 900;
+    text-align: center;
+    border: .25em solid var(--secondary-color);
+    box-shadow: 0 0 .5em var(--fourth-color);
+    font-size: 125%;
+}
+button[type="reset"] {
+    display: block;
+    margin: 1em auto;
+    padding: 1em;
+    border-radius: 2em;
+    background-color: var(--secondary-color);
+    color: var(--fourth-color);
+    font-weight: 900;
+    border: .1em solid var(--fifth-color);
+}
 table.main, table.secondary, table.leagues_users {
     width: 100%;
     max-width: 1200px;
@@ -12,6 +36,8 @@ table.main, table.secondary, table.leagues_users {
     text-align: center;
     border-spacing: 0;
     color: var(--fourth-color);
+    text-shadow: 0 0 .25em var(--secondary-color);
+    background-color: rgba(90, 79, 79, 0.15);
 }
 div.table_container {
     background-image: url('fire.png');
@@ -28,12 +54,12 @@ table.secondary td > p {
 table.main th {
     color: var(--fourth-color);
 }
-table.secondary td {
-    font-size: 85%;
-}
 img.thumbnail {
     width: 4em;
+    height: 4em;
     border-radius: 50%;
+    box-shadow: 0 0 1em var(--fifth-color);
+    object-fit: cover;
 }
 img.thumbnail_small {
     width: 2em;
@@ -61,6 +87,8 @@ button.active_nav {
     background-color: var(--third-color);
     border: .1em solid var(--fourth-color);
     filter: brightness(2);
+    color: var(--fifth-color);
+    text-shadow: 0 0 .75em var(--secondary-color);
      
 }
 .clickable {
@@ -83,10 +111,10 @@ tr.hover2:hover p.draft_status, tr.active2 p.draft_status {
     color: var(--secondary-color);
     text-shadow: 0 0 .25em var(--third-color)
 }
-table.secondary {
+table.secondary, table.leagues_users {
     border: .25em solid var(--fourth-color);
     padding: 1em;
-    font-size: 85%;
+    padding: 0;
 }
 
 table.secondary th {
@@ -104,9 +132,13 @@ div.leaguewrapper {
     width: 100%;
     margin: 5em auto;
 }
-div.leaguewrapper > img {
+.title_container {
+    margin: 2em auto;
+}
+div.leaguewrapper > img, .title_picture {
     position: absolute;
     width: 5em;
+    height: fit-content;
     margin: auto;
     text-align: center;
     left: 0;
@@ -115,6 +147,10 @@ div.leaguewrapper > img {
     top: 0;
     z-index: 0;
     filter: brightness(.5);  
+}
+p.title {
+    position: relative;
+    z-index: 1;
 }
 p.league {
     color: var(--fourth-color);
@@ -135,7 +171,8 @@ div.round_row {
 table.round {
     margin: 1em;
     font-size: 85%;
-    border: .25em solid var(--secondary-color);
+    background-color: rgba(90, 79, 79, 0.15);
+    box-shadow: 0 0 1em var(--fifth-color);
     border-spacing: 0;
 }
 tr.draft_picks {
@@ -146,22 +183,30 @@ tr.draft_picks {
 }
 .left {
     text-align: left;
+    display: flex;
+    align-items: center;
 }
 .top {
     vertical-align: top;
-}
-p.hover.left {
     white-space: nowrap;
     overflow: hidden;
-    padding-right: 1em;
+    text-overflow: ellipsis;
 }
-p.hover.left:hover {
+p.hover.left {
+    width: 100%;
+    white-space: nowrap;
     overflow: scroll;
-    font-weight: 900;
+    margin-left: 0;
+    box-shadow: 0 0 .5em var(--fifth-color);
 }
 td.picks > p {
     padding: .5em;
 }
 p.header {
     font-weight: 900;
+}
+div.roster_group {
+    width: fit-content;
+    margin: auto;
+    padding: 0;
 }
