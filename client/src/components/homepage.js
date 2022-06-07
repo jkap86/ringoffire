@@ -163,7 +163,12 @@ const Homepage = () => {
                 </motion.div>
             </h1>
             <div className='nav_container'>
-                <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
+                <motion.button
+                    className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} 
+                    onClick={() => setTab('Leagues')}
+                >
+                    Leagues
+                </motion.button>
                 <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
                 <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
                 <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
