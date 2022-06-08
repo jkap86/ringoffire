@@ -94,6 +94,7 @@ const Leagues = (props) => {
                                                     <th>Record</th>
                                                     <th>FP</th>
                                                     <th>FPA</th>
+                                                    <th>Roster Value</th>
                                                 </tr>
                                             </tbody>
                                             {league.rosters.sort((a, b) => b.settings.wins - a.settings.wins).map(roster =>
@@ -112,6 +113,7 @@ const Leagues = (props) => {
                                                         <td>{roster.settings.wins}-{roster.settings.losses}</td>
                                                         <td>{roster.settings.fpts_decimal === undefined ? 0 : roster.settings.fpts + '.' + roster.settings.fpts_decimal}</td>
                                                         <td>{roster.settings.fpts_against_decimal === undefined ? 0 : roster.settings.fpts_against + '.' + roster.settings.fpts_against_decimal}</td>
+                                                        <td>{roster.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0).toLocaleString("en-US")}</td>
                                                     </tr>
                                                     {roster.isRosterHidden === true ? null :
                                                         <tr>

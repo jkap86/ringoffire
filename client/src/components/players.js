@@ -138,10 +138,11 @@ const Players = (props) => {
                                             <th></th>
                                             <th colSpan={2}>Owner</th>
                                             <th colSpan={2}>Record</th>
+                                            <th colSpan={2}>Roster Value</th>
                                         </tr>
                                         {player.leagues.sort((a, b) => a.league_name > b.league_name ? 1 : -1).map(league =>
                                             <React.Fragment>
-                                                <tr onClick={() => showRoster(player.player, league.league_id)} className={league.isRosterHidden ? 'hover clickable' : 'active clickable' }>
+                                                <tr onClick={() => showRoster(player.player, league.league_id)} className={league.isRosterHidden ? 'hover clickable' : 'active clickable'}>
                                                     <td>
                                                         <motion.img
                                                             animate={{ rotate: 360 }}
@@ -163,17 +164,24 @@ const Players = (props) => {
                                                     </td>
                                                     <td colSpan={2}>{league.owner_name}</td>
                                                     <td colSpan={2}>{league.wins}-{league.losses}</td>
+                                                    <td colSpan={2}>{league.roster.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0).toLocaleString("en-US")}</td>
                                                 </tr>
                                                 {league.isRosterHidden === true ? null :
-                                                    <tr>
-                                                        <td colSpan={9}>
+                                                    <motion.tr
+                                                        key={`${player.player}_${league.league_id}`}
+                                                        initial={{ y: 900 }}
+                                                        animate={{ y: 0 }}
+                                                        exit={{ y: 900 }}
+                                                        transition={{ duration: 1, type: "spring" }}
+                                                    >
+                                                        <td colSpan={11}>
                                                             <Roster
                                                                 roster={league.roster}
                                                                 matchPick={props.matchPick}
                                                                 matchPlayer={props.matchPlayer}
                                                             />
                                                         </td>
-                                                    </tr>
+                                                    </motion.tr>
                                                 }
                                             </React.Fragment>
                                         )}

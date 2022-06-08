@@ -41,6 +41,7 @@ const Standings = (props) => {
                     <th colSpan={2}>Record</th>
                     <th colSpan={2}>FP</th>
                     <th colSpan={2}>FPA</th>
+                    <th colSpan={2}>Roster Value</th>
                 </tr>
             </tbody>
             {leagues.filter(x => x.isLeagueHidden === false).sort((a, b) => b.wins - a.wins || b.fpts - a.fpts || b.fpts_against - a.fpts_against || b.owner_id - a.owner_id).map((league, index) =>
@@ -80,6 +81,7 @@ const Standings = (props) => {
                             <td colSpan={2}>{league.wins}-{league.losses}</td>
                             <td colSpan={2}>{league.fpts.toLocaleString("en-US")}</td>
                             <td colSpan={2}>{league.fpts_against.toLocaleString("en-US")}</td>
+                            <td colSpan={2}>{league.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0).toLocaleString("en-US")}</td>
                         </motion.tr>
                         {league.isRosterHidden === true ? null :
                             <AnimatePresence>
@@ -91,7 +93,7 @@ const Standings = (props) => {
                                     transition={{ duration: 1, type: "spring" }}
                                     className='expanded'
                                 >
-                                    <td colSpan={15}>
+                                    <td colSpan={17}>
                                         <Roster roster={league} matchPlayer={props.matchPlayer} matchPick={props.matchPick} />
                                     </td>
                                 </motion.tr>

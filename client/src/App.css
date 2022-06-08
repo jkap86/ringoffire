@@ -52,7 +52,8 @@ table.secondary td > p {
     width: fit-content;
 }
 table.main th {
-    color: var(--fourth-color);
+    color: var(--third-color);
+    filter: brightness(2);
 }
 img.thumbnail {
     width: 4em;
@@ -117,11 +118,13 @@ table.secondary, table.leagues_users {
     padding: 0;
 }
 
-table.secondary th {
+th {
     color: var(--third-color);
+    text-shadow: 0 0 .25em var(--fourth-color), 0 0 .15em var(--primary-color);
+    font-weight: 900;
+    font-size: 125%;
 }
 table.secondary th.values {
-    color: var(--fourth-color);
     padding: 1em 0;
 }
 ul, ol {
