@@ -117,7 +117,7 @@ const Leagues = (props) => {
                                                     </tr>
                                                     {roster.isRosterHidden === true ? null :
                                                         <tr>
-                                                            <td colSpan={6}>
+                                                            <td colSpan={7}>
                                                                 <Roster
                                                                     roster={roster}
                                                                     matchPlayer={props.matchPlayer}
