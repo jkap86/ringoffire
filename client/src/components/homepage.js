@@ -1,12 +1,14 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import Standings from './standings';
-import allPlayers from '../allPlayers.json';
-import Leagues from './leagues';
-import Drafts from './drafts';
-import Players from './players';
-import volcano from '../volcano.png';
 import { motion } from 'framer-motion';
+import { useState, useEffect, lazy, Suspense, Component } from 'react';
+import allPlayers from '../allPlayers.json';
+import volcano from '../volcano.png';
+const Standings = lazy(() => import('./standings'));
+const Leagues = lazy(() => import('./leagues'));
+const Drafts = lazy(() => import('./drafts'));
+const Players = lazy(() => import('./players'));
+
+
 
 const Homepage = () => {
     const [leagues, setLeagues] = useState({ '2022': [], '2021': [] })
@@ -183,11 +185,13 @@ const Homepage = () => {
             {tab === 'Leagues' ?
                 <div>
                     {leagues[season].length > 0 ?
-                        <Leagues
-                            leagues={leagues[season]}
-                            matchPlayer={matchPlayer}
-                            matchPick={matchPick}
-                        />
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            <Leagues
+                                leagues={leagues[season]}
+                                matchPlayer={matchPlayer}
+                                matchPick={matchPick}
+                            />
+                        </Suspense>
                         : <h1>Loading...</h1>
                     }
                 </div>
@@ -196,12 +200,14 @@ const Homepage = () => {
             {tab === 'Standings' ?
                 <div hidden={tab === 'Standings' ? false : true}>
                     {standings[season].length > 0 ?
-                        <Standings
-                            leagues={standings[season]}
-                            showRoster={showRoster}
-                            matchPlayer={matchPlayer}
-                            matchPick={matchPick}
-                        />
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            <Standings
+                                leagues={standings[season]}
+                                showRoster={showRoster}
+                                matchPlayer={matchPlayer}
+                                matchPick={matchPick}
+                            />
+                        </Suspense>
                         : <h1>Loading...</h1>
                     }
                 </div>
@@ -209,18 +215,22 @@ const Homepage = () => {
             }
             {tab === 'Players' ?
                 <div hidden={tab === 'Players' ? false : true}>
-                    <Players 
-                        players={players} 
-                        matchPlayer={matchPlayer}
-                        matchPick={matchPick}
-                    />
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <Players
+                            players={players}
+                            matchPlayer={matchPlayer}
+                            matchPick={matchPick}
+                        />
+                    </Suspense>
                 </div>
                 : null
             }
             {tab === 'Drafts' ?
                 <div>
                     {drafts[season].length > 0 ?
-                        <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
+                        </Suspense>
                         : <h1>Loading...</h1>
                     }
                 </div>
