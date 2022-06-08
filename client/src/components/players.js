@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import volcano from '../volcano.png';
 import allPlayers from '../allPlayers.json';
 import Search from "./search";
 import { motion } from 'framer-motion';
+import Roster from "./roster";
 
 const Players = (props) => {
     const [filters, setFilters] = useState({ positions: [] })
@@ -13,6 +14,15 @@ const Players = (props) => {
         let p = players
         p.filter(x => x.player === e).map(player => {
             player.isLeaguesHidden = !player.isLeaguesHidden
+        })
+        setPlayers([...p])
+    }
+    const showRoster = (player_id, league_id) => {
+        let p = players
+        p.filter(x => x.player === player_id).map(player => {
+            return player.leagues.filter(x => x.league_id === league_id).map(league => {
+                return league.isRosterHidden = !league.isRosterHidden
+            })
         })
         setPlayers([...p])
     }
@@ -129,30 +139,43 @@ const Players = (props) => {
                                             <th colSpan={2}>Owner</th>
                                             <th colSpan={2}>Record</th>
                                         </tr>
-                                        {player.leagues.map(league =>
-                                            <tr className="hover">
-                                                <td>
-                                                    <motion.img
-                                                        animate={{ rotate: 360 }}
-                                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
-                                                        className="thumbnail"
-                                                        alt={league.league_name}
-                                                        src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
-                                                    />
-                                                </td>
-                                                <td colSpan={3}>{league.league_name}</td>
-                                                <td>
-                                                    <motion.img
-                                                        animate={{ rotate: 360 }}
-                                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
-                                                        className="thumbnail"
-                                                        alt={league.owner_name}
-                                                        src={league.owner_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.owner_avatar}`}
-                                                    />
-                                                </td>
-                                                <td colSpan={2}>{league.owner_name}</td>
-                                                <td colSpan={2}>{league.wins}-{league.losses}</td>
-                                            </tr>
+                                        {player.leagues.sort((a, b) => a.league_name > b.league_name ? 1 : -1).map(league =>
+                                            <React.Fragment>
+                                                <tr onClick={() => showRoster(player.player, league.league_id)} className={league.isRosterHidden ? 'hover clickable' : 'active clickable' }>
+                                                    <td>
+                                                        <motion.img
+                                                            animate={{ rotate: 360 }}
+                                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                            className="thumbnail"
+                                                            alt={league.league_name}
+                                                            src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
+                                                        />
+                                                    </td>
+                                                    <td colSpan={3}>{league.league_name}</td>
+                                                    <td>
+                                                        <motion.img
+                                                            animate={{ rotate: 360 }}
+                                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                            className="thumbnail"
+                                                            alt={league.owner_name}
+                                                            src={league.owner_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.owner_avatar}`}
+                                                        />
+                                                    </td>
+                                                    <td colSpan={2}>{league.owner_name}</td>
+                                                    <td colSpan={2}>{league.wins}-{league.losses}</td>
+                                                </tr>
+                                                {league.isRosterHidden === true ? null :
+                                                    <tr>
+                                                        <td colSpan={9}>
+                                                            <Roster
+                                                                roster={league.roster}
+                                                                matchPick={props.matchPick}
+                                                                matchPlayer={props.matchPlayer}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </React.Fragment>
                                         )}
                                     </tbody>
                                 </table>

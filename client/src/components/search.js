@@ -15,7 +15,6 @@ const Search = (props) => {
     useEffect(() => {
         props.sendSearched(searched)
     }, [searched])
-    console.log(props.list)
     return <>
         <h5>
             <form onSelect={filterList}>

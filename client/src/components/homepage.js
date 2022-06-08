@@ -59,13 +59,16 @@ const Homepage = () => {
                     losses: player.roster.settings.losses,
                     ties: player.roster.settings.ties,
                     leagues: [{
+                        league_id: player.league.league_id,
                         league_name: player.league.name,
                         league_avatar: player.league.avatar,
                         owner_name: player.roster.username,
                         owner_avatar: player.roster.avatar,
                         wins: player.roster.settings.wins,
                         losses: player.roster.settings.losses,
-                        ties: player.roster.settings.ties
+                        ties: player.roster.settings.ties,
+                        roster: player.roster,
+                        isRosterHidden: true
                     }]
                 })
             } else {
@@ -74,13 +77,16 @@ const Homepage = () => {
                 playersOccurences[index].losses = playersOccurences[index].losses + player.roster.settings.losses
                 playersOccurences[index].ties = playersOccurences[index].ties + player.roster.settings.ties
                 playersOccurences[index].leagues.push({
+                    league_id: player.league.league_id,
                     league_name: player.league.name,
                     league_avatar: player.league.avatar,
                     owner_name: player.roster.username,
                     owner_avatar: player.roster.avatar,
                     wins: player.roster.settings.wins,
                     losses: player.roster.settings.losses,
-                    ties: player.roster.settings.ties
+                    ties: player.roster.settings.ties,
+                    roster: player.roster,
+                    isRosterHidden: true
                 })
             }
         })
@@ -203,7 +209,11 @@ const Homepage = () => {
             }
             {tab === 'Players' ?
                 <div hidden={tab === 'Players' ? false : true}>
-                    <Players players={players} />
+                    <Players 
+                        players={players} 
+                        matchPlayer={matchPlayer}
+                        matchPick={matchPick}
+                    />
                 </div>
                 : null
             }
