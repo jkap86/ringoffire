@@ -5,6 +5,7 @@ import Search from "./search";
 import { motion } from 'framer-motion';
 
 const Players = (props) => {
+    const [filters, setFilters] = useState({ positions: [] })
     const [players, setPlayers] = useState([])
     if (props.players !== players) setPlayers(props.players)
 
@@ -36,7 +37,36 @@ const Players = (props) => {
         setPlayers([...p])
     }
 
+    const filterPosition = (e, position) => {
+        let f = filters.positions
+        if (e.target.checked) {
+            const index = f.indexOf(position)
+            f.splice(index, 1)
+        } else {
+            f.push(position)
+        }
+        setFilters({ ...filters, positions: [...f] })
+    }
+
     return <>
+        <div className="checkboxes">
+            <label className="position">
+                QB
+                <input className="clickable" onClick={(e) => filterPosition(e, 'QB')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                RB
+                <input className="clickable" onClick={(e) => filterPosition(e, 'RB')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                WR
+                <input className="clickable" onClick={(e) => filterPosition(e, 'WR')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                TE
+                <input className="clickable" onClick={(e) => filterPosition(e, 'TE')} defaultChecked type="checkbox" />
+            </label>
+        </div>
         <Search
             list={players.map(player => {
                 const team = allPlayers[player.player].team === null ? 'FA' : allPlayers[player.player].team
@@ -54,7 +84,7 @@ const Players = (props) => {
                     <th>Record</th>
                 </tr>
             </tbody>
-            {players.filter(x => x.isPlayerHidden === false).sort((a, b) => b.dynasty_value - a.dynasty_value).map((player, index) =>
+            {players.filter(x => x.isPlayerHidden === false && !filters.positions.includes(allPlayers[x.player].position)).sort((a, b) => b.dynasty_value - a.dynasty_value).map((player, index) =>
                 <motion.tbody
                     key={index}
                     initial={{ y: 900 }}
