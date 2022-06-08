@@ -253,3 +253,9 @@ div.checkboxes {
     margin: .25em 1em;
     text-shadow: 0 0 .1em var(--third-color);
   }
+  select {
+      background-color: var(--fourth-color);
+      font-weight: 900;
+      font-size: 100%;
+      color: var(--third-color);
+  }
