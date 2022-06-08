@@ -137,6 +137,15 @@ div.leaguewrapper {
 }
 .title_container {
     margin: 2em auto;
+    animation: rotationX 10s infinite ease-in-out;
+}
+@keyframes rotationX {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(359deg);
+    }
 }
 div.leaguewrapper > img, .title_picture {
     position: absolute;
@@ -258,4 +267,23 @@ div.checkboxes {
       font-weight: 900;
       font-size: 100%;
       color: var(--third-color);
+  }
+  .slide_up {
+      animation: slide_up 1s ease-out;
+  }
+  @keyframes slide_up {
+      from {
+          transform: translateY(100vh);
+      }
+      to {
+          transform: translateY(0);
+      }
+  }
+  @keyframes rotation {
+      from {
+          transform: rotate(0deg);
+      }
+      to {
+          transform: rotate(359deg);
+      }
   }

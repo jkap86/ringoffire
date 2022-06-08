@@ -2,7 +2,6 @@ import { useState } from "react";
 import volcano from '../volcano.png';
 import allPlayers from '../allPlayers.json';
 import Search from "./search";
-import { motion, AnimatePresence } from 'framer-motion';
 
 
 const Drafts = (props) => {
@@ -42,20 +41,12 @@ const Drafts = (props) => {
         />
         <table className="main">
             {drafts.filter(x => x.isDraftHidden === false).sort((a, b) => a.league_name > b.league_name ? 1 : -1).map((draft, index) =>
-                <AnimatePresence key={index}>
-                    <motion.tbody>
-                        <motion.tr
-                            key={draft.league_name}
-                            initial={{ y: 900 }}
-                            animate={{ y: 0 }}
-                            exit={{ y: 900 }}
-                            transition={{ duration: 1, type: "spring" }}
-                            className={draft.isPicksHidden ? 'hover2' : 'active2'}>
+                    <tbody key={index}>
+                        <tr className={draft.isPicksHidden ? 'hover2 slide_up' : 'active2 slide_up'}>
                             <td>
                                 <div onClick={() => showPicks(draft.draft.draft_id)} className="leaguewrapper clickable">
-                                    <motion.img
-                                        animate={{ rotate: 360 }}
-                                        transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                    <img
+                                        style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                         className="thumbnail"
                                         alt={draft.league_name}
                                         src={`https://sleepercdn.com/avatars/${draft.league_avatar}`}
@@ -64,7 +55,7 @@ const Drafts = (props) => {
                                     <p className="draft_status">{draft.draft.status.replace('_', '')}</p>
                                 </div>
                             </td>
-                        </motion.tr>
+                        </tr>
                         {draft.isPicksHidden === true ? null :
                             <tr className="draft_picks">
                                 <td>
@@ -107,8 +98,7 @@ const Drafts = (props) => {
                                 </td>
                             </tr>
                         }
-                    </motion.tbody>
-                </AnimatePresence>
+                    </tbody>
             )}
         </table>
     </>

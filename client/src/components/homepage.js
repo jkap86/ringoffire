@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import { useState, useEffect, lazy, Suspense, Component } from 'react';
 import allPlayers from '../allPlayers.json';
 import volcano from '../volcano.png';
@@ -161,22 +160,18 @@ const Homepage = () => {
                 <button className={season === '2021' ? 'active_nav nav' : 'nav'} onClick={() => setSeason('2021')}>2021</button>
             </div>
             <h1>
-                <motion.div
-                    animate={{ rotateY: 360 }}
-                    transition={{ repeat: Infinity, duration: 10 }}
-                    className='title_container'
-                >
+                <div className='title_container'>
                     <img className='title_picture' alt='volcano' src={volcano} />
                     <p className='title'>Ring of Fire</p>
-                </motion.div>
+                </div>
             </h1>
             <div className='nav_container'>
-                <motion.button
+                <button
                     className={tab === 'Leagues' ? 'active_nav nav' : 'nav'}
                     onClick={() => setTab('Leagues')}
                 >
                     Leagues
-                </motion.button>
+                </button>
                 <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
                 <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
                 <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import allPlayers from '../allPlayers.json';
 import volcano from '../volcano.png';
-import { motion } from "framer-motion";
 
 const Roster = (props) => {
     const [roster, setRoster] = useState()
@@ -42,9 +41,8 @@ const Roster = (props) => {
                                 <p className="header">Starters</p>
                                 {roster.starters.map(starter =>
                                     <p className="hover left">
-                                        <motion.img
-                                            animate={{ rotate: 360 }}
-                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2}}
+                                        <img
+                                            style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                             className="thumbnail"
                                             alt="headshot"
                                             src={`https://sleepercdn.com/content/nfl/players/thumb/${starter}.jpg`}
@@ -68,9 +66,8 @@ const Roster = (props) => {
                                         (roster.taxi !== null && roster.taxi.includes(player)) ?
                                         null :
                                         <p className="hover left">
-                                            <motion.img
-                                                animate={{ rotate: 360 }}
-                                                transition={{ repeat: Infinity, duration: Math.random() * 10 + 2}}
+                                            <img
+                                                style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                                 className="thumbnail"
                                                 alt="headshot"
                                                 src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}
@@ -93,9 +90,8 @@ const Roster = (props) => {
                                 <p className="header">Taxi</p>
                                 {roster.taxi === null ? null : roster.taxi.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
                                     <p className="hover left">
-                                        <motion.img
-                                            animate={{ rotate: 360 }}
-                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2}}
+                                        <img
+                                            style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                             className="thumbnail"
                                             alt="headshot"
                                             src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}
@@ -116,9 +112,8 @@ const Roster = (props) => {
                                 <p className="header">IR</p>
                                 {roster.reserve === null ? null : roster.reserve.sort((a, b) => props.matchPlayer(b) - props.matchPlayer(a)).map(player =>
                                     <p className="hover left">
-                                        <motion.img
-                                            animate={{ rotate: 360 }}
-                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2}}
+                                        <img
+                                            style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                             className="thumbnail"
                                             alt="headshot"
                                             src={`https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg`}

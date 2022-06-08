@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import volcano from '../volcano.png';
 import allPlayers from '../allPlayers.json';
 import Search from "./search";
-import { motion } from 'framer-motion';
 import Roster from "./roster";
 
 const Players = (props) => {
@@ -95,18 +94,11 @@ const Players = (props) => {
                 </tr>
             </tbody>
             {players.filter(x => x.isPlayerHidden === false && !filters.positions.includes(allPlayers[x.player].position)).sort((a, b) => b.dynasty_value - a.dynasty_value).map((player, index) =>
-                <motion.tbody
-                    key={index}
-                    initial={{ y: 900 }}
-                    animate={{ y: 0 }}
-                    exit={{ y: 900 }}
-                    transition={{ duration: 1, type: "spring" }}
-                >
+                <tbody className="slide_up">
                     <tr className={player.isLeaguesHidden ? 'hover clickable' : 'active clickable'} key={player.player} onClick={(e) => showLeagues(player.player)}>
                         <td>
-                            <motion.img
-                                animate={{ rotate: 360 }}
-                                transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                            <img
+                                style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                 className="thumbnail"
                                 alt={player.player}
                                 src={`https://sleepercdn.com/content/nfl/players/thumb/${player.player}.jpg`}
@@ -122,13 +114,7 @@ const Players = (props) => {
                         <td>{player.wins}-{player.losses}</td>
                     </tr>
                     {player.isLeaguesHidden === true ? null :
-                        <motion.tr
-                            key={index}
-                            initial={{ y: 900 }}
-                            animate={{ y: 0 }}
-                            exit={{ y: 900 }}
-                            transition={{ duration: 1, type: "spring" }}
-                        >
+                        <tr className="slide_up">
                             <td colSpan={4}>
                                 <table className="secondary">
                                     <tbody>
@@ -144,9 +130,8 @@ const Players = (props) => {
                                             <React.Fragment>
                                                 <tr onClick={() => showRoster(player.player, league.league_id)} className={league.isRosterHidden ? 'hover clickable' : 'active clickable'}>
                                                     <td>
-                                                        <motion.img
-                                                            animate={{ rotate: 360 }}
-                                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                        <img
+                                                            style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                                             className="thumbnail"
                                                             alt={league.league_name}
                                                             src={`https://sleepercdn.com/avatars/${league.league_avatar}`}
@@ -154,9 +139,8 @@ const Players = (props) => {
                                                     </td>
                                                     <td colSpan={3}>{league.league_name}</td>
                                                     <td>
-                                                        <motion.img
-                                                            animate={{ rotate: 360 }}
-                                                            transition={{ repeat: Infinity, duration: Math.random() * 10 + 2 }}
+                                                        <img
+                                                            style={{ animation: `rotation ${Math.random() * 10 + 2}s infinite linear` }}
                                                             className="thumbnail"
                                                             alt={league.owner_name}
                                                             src={league.owner_avatar === null ? volcano : `https://sleepercdn.com/avatars/${league.owner_avatar}`}
@@ -167,13 +151,7 @@ const Players = (props) => {
                                                     <td colSpan={2}>{league.roster.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0).toLocaleString("en-US")}</td>
                                                 </tr>
                                                 {league.isRosterHidden === true ? null :
-                                                    <motion.tr
-                                                        key={`${player.player}_${league.league_id}`}
-                                                        initial={{ y: 900 }}
-                                                        animate={{ y: 0 }}
-                                                        exit={{ y: 900 }}
-                                                        transition={{ duration: 1, type: "spring" }}
-                                                    >
+                                                    <tr className="slide_up">
                                                         <td colSpan={11}>
                                                             <Roster
                                                                 roster={league.roster}
@@ -181,16 +159,16 @@ const Players = (props) => {
                                                                 matchPlayer={props.matchPlayer}
                                                             />
                                                         </td>
-                                                    </motion.tr>
+                                                    </tr>
                                                 }
                                             </React.Fragment>
                                         )}
                                     </tbody>
                                 </table>
                             </td>
-                        </motion.tr>
+                        </tr>
                     }
-                </motion.tbody>
+                </tbody>
             )}
 
         </table>
