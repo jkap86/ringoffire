@@ -9,7 +9,10 @@ const Standings = (props) => {
 
 
     useEffect(() => {
-        setLeagues(props.leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts))
+        setLeagues(props.leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts ||
+            b.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0) -
+            a.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0)
+        ))
     }, [props.leagues])
 
     const sort = (sort_by) => {
@@ -32,7 +35,7 @@ const Standings = (props) => {
                 break;
         }
     }
-    
+
     const getSearched = (data) => {
         const l = leagues
         if (data) {

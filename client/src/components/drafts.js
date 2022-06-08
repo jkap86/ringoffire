@@ -65,7 +65,7 @@ const Drafts = (props) => {
                             </div>
                         </td>
                     </motion.tr>
-                    {draft.isPicksHidden === true || draft.picks.length < 1 ? null :
+                    {draft.isPicksHidden === true ? null :
                         <tr className="draft_picks">
                             <td>
                                 {Array.from(Array(draft.draft.settings.rounds).keys()).map(n => n + 1).map(round =>
