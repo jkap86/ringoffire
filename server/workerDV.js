@@ -7,7 +7,7 @@ const getDynastyValues = async () => {
     const page = await axios.get('https://keeptradecut.com/dynasty-rankings')
     let $ = cheerio.load(page.data)
     $('.onePlayer').each((index, element) => {
-        let name = $(element).find('.player-name a').text()
+        let name = $(element).find('.player-name a').text().replace(' III', '')
         let searchName = name.replace(/[^0-9a-z]/gi, '').toLowerCase()
         elements.push({
             name: name,
