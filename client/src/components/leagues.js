@@ -49,7 +49,7 @@ const Leagues = (props) => {
         />
         <table className="main">
             {leagues.filter(x => x.isLeagueHidden === false).sort((a, b) => a.name > b.name ? 1 : -1).map((league, index) =>
-                <tbody className="slide_up">
+                <tbody className="slide_up" key={index}>
                     <tr
                         className={league.isRostersHidden ? 'hover2 clickable' : 'active2 clickable'}
                         onClick={() => showLeaguemates(league.league_id)}>

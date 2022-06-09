@@ -7,7 +7,7 @@ import allPlayers from '../allPlayers.json';
 const Standings = (props) => {
     const [leagues, setLeagues] = useState([])
     const [group_age, setGroup_age] = useState("All")
-    console.log(props.leagues)
+    
     useEffect(() => {
         setLeagues(props.leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts ||
             b.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0) -

@@ -45,6 +45,12 @@ app.get('/drafts', async (req, res) => {
 	const result = await poolDrafts.exec('getDrafts', [season])
 	res.send(result)
 })
+app.get('/transactions', async (req, res) => {
+	const season = req.query.season
+	const poolTransactions = workerpool.pool(__dirname + '/workerTransactions.js')
+	const result = await poolTransactions.exec('getTransactions', [season])
+	res.send(result)
+})
 
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/build/index.html'));

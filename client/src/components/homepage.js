@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { useState, useEffect, lazy, Suspense, Component } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import allPlayers from '../allPlayers.json';
 import volcano from '../volcano.png';
 const Standings = lazy(() => import('./standings'));
 const Leagues = lazy(() => import('./leagues'));
 const Drafts = lazy(() => import('./drafts'));
 const Players = lazy(() => import('./players'));
+const Transactions = lazy(() => import('./transactions'));
 
 
 
@@ -13,6 +14,7 @@ const Homepage = () => {
     const [leagues, setLeagues] = useState({ '2022': [], '2021': [] })
     const [standings, setStandings] = useState({ '2022': [], '2021': [] })
     const [drafts, setDrafts] = useState({ '2022': [], '2021': [] })
+    const [transactions, setTransactions] = useState({ '2022': [], '2021': [] })
     const [season, setSeason] = useState('2022')
     const [tab, setTab] = useState('Leagues')
     const [dv, setDv] = useState([])
@@ -128,14 +130,27 @@ const Homepage = () => {
                 })
                 return d.data
             }
-            const [s, ps, d, pd] = await Promise.all([
+            const getTransactions = async (league_season) => {
+                const t = await axios.get('/transactions', {
+                    params: {
+                        season: league_season
+                    }
+                })
+                console.log(t.data)
+                return t.data
+            }
+
+            const [s, ps, d, pd, t, pt] = await Promise.all([
                 await getStandings('2022'),
                 await getStandings('2021'),
                 await getDrafts('2022'),
-                await getDrafts('2021')
+                await getDrafts('2021'),
+                await getTransactions('2022'),
+                await getTransactions('2021')
             ])
             setStandings({ '2022': s, '2021': ps })
             setDrafts({ '2022': d, '2021': pd })
+            setTransactions({ '2022': t, '2021': pt })
         }
         fetchData()
     }, [])
@@ -175,6 +190,7 @@ const Homepage = () => {
                 <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
                 <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
                 <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
+                <button className={tab === 'Transactions' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Transactions')}>Transactions</button>
             </div>
 
             {tab === 'Leagues' ?
@@ -228,6 +244,19 @@ const Homepage = () => {
                         </Suspense>
                         : <h1>Loading...</h1>
                     }
+                </div>
+                : null
+            }
+            {tab === 'Transactions' ?
+                <div>
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        {transactions[season].length > 0 ?
+                            <Transactions
+                                transactions={transactions[season]}
+                            />
+                            : <h1>Loading...</h1>
+                        }
+                    </Suspense>
                 </div>
                 : null
             }

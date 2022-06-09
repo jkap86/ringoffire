@@ -57,10 +57,10 @@ const Drafts = (props) => {
                             </td>
                         </tr>
                         {draft.isPicksHidden === true ? null :
-                            <tr className="draft_picks">
+                            <tr className="draft_picks slide_up">
                                 <td>
-                                    {Array.from(Array(draft.draft.settings.rounds).keys()).map(n => n + 1).map(round =>
-                                        <div className="round_row">
+                                    {Array.from(Array(draft.draft.settings.rounds).keys()).map(n => n + 1).map((round, index) =>
+                                        <div className="round_row" key={index}>
                                             <table className="round">
                                                 <tbody>
                                                     {draft.picks.filter(x => x.round === round).length > 0 ?
@@ -74,8 +74,8 @@ const Drafts = (props) => {
                                                         </tr>
                                                         : null
                                                     }
-                                                    {draft.picks.filter(x => x.round === round).map(pick =>
-                                                        <tr className="hover">
+                                                    {draft.picks.filter(x => x.round === round).map((pick, index) =>
+                                                        <tr className="hover" key={index}>
                                                             <td>{pick.round}</td>
                                                             <td>{(pick.pick_no % draft.total_rosters) === 0 ? draft.total_rosters : (pick.pick_no % draft.total_rosters)}</td>
                                                             <td><img className="thumbnail_small" alt="avatar" src={pick.picked_by_avatar === null ? volcano : `https://sleepercdn.com/avatars/${pick.picked_by_avatar}`} /></td>

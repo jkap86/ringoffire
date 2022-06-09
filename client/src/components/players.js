@@ -94,7 +94,7 @@ const Players = (props) => {
                 </tr>
             </tbody>
             {players.filter(x => x.isPlayerHidden === false && !filters.positions.includes(allPlayers[x.player].position)).sort((a, b) => b.dynasty_value - a.dynasty_value).map((player, index) =>
-                <tbody className="slide_up">
+                <tbody className="slide_up" key={index}>
                     <tr className={player.isLeaguesHidden ? 'hover clickable' : 'active clickable'} key={player.player} onClick={(e) => showLeagues(player.player)}>
                         <td>
                             <img
@@ -126,8 +126,8 @@ const Players = (props) => {
                                             <th colSpan={2}>Record</th>
                                             <th colSpan={2}>Roster Value</th>
                                         </tr>
-                                        {player.leagues.sort((a, b) => a.league_name > b.league_name ? 1 : -1).map(league =>
-                                            <React.Fragment>
+                                        {player.leagues.sort((a, b) => a.league_name > b.league_name ? 1 : -1).map((league, index) =>
+                                            <React.Fragment key={index}>
                                                 <tr onClick={() => showRoster(player.player, league.league_id)} className={league.isRosterHidden ? 'hover clickable' : 'active clickable'}>
                                                     <td>
                                                         <img
