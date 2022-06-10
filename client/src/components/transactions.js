@@ -51,7 +51,8 @@ const Transactions = (props) => {
     const getSearchedPlayer = (data) => {
         let t = transactions
         if (data) {
-            const player = Object.keys(allPlayers).find(x => `${allPlayers[x].full_name}` === data)
+            const player = Object.keys(allPlayers).find(x => 
+                `${allPlayers[x].full_name} ${allPlayers[x].position} ${allPlayers[x].team === null ? 'FA' : allPlayers[x].team}` === data)
             t.map(trans => {
                 return trans.isTransactionHidden = true
             })
@@ -78,7 +79,8 @@ const Transactions = (props) => {
     }).flat()))
     const players = Array.from(new Set(transactions.map(trans => {
         return trans.adds === null ? [] : Object.keys(trans.adds).map(add => {
-            return allPlayers[add].full_name
+            return `${allPlayers[add].full_name} ${allPlayers[add].position} 
+                ${allPlayers[add].team === null ? 'FA' : allPlayers[add].team}`
         })
     }).flat()))
 
@@ -96,7 +98,7 @@ const Transactions = (props) => {
                 sendSearched={getSearchedManager}
                 id={'Managers'}
             />
-            <Search 
+            <Search
                 list={players}
                 placeholder="Search Players"
                 sendSearched={getSearchedPlayer}
