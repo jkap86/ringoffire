@@ -38,7 +38,8 @@ const getTransactions = async (season) => {
                             original_username: pick_original_user.display_name,
                             order: draft_order
                         }
-                    })
+                    }),
+                    isTransactionHidden: false
                 })
             })
         }))

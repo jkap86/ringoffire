@@ -136,7 +136,6 @@ const Homepage = () => {
                         season: league_season
                     }
                 })
-                console.log(t.data)
                 return t.data
             }
 
@@ -181,13 +180,8 @@ const Homepage = () => {
                 </div>
             </h1>
             <div className='nav_container'>
-                <button
-                    className={tab === 'Leagues' ? 'active_nav nav' : 'nav'}
-                    onClick={() => setTab('Leagues')}
-                >
-                    Leagues
-                </button>
                 <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
+                <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
                 <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
                 <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
                 <button className={tab === 'Transactions' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Transactions')}>Transactions</button>
