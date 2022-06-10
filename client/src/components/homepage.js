@@ -183,7 +183,6 @@ const Homepage = () => {
                 <button className={tab === 'Standings' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Standings')}>Standings</button>
                 <button className={tab === 'Leagues' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Leagues')}>Leagues</button>
                 <button className={tab === 'Players' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Players')}>Players</button>
-                <button className={tab === 'Drafts' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Drafts')}>Drafts</button>
                 <button className={tab === 'Transactions' ? 'active_nav nav' : 'nav'} onClick={() => setTab('Transactions')}>Transactions</button>
             </div>
 
@@ -193,6 +192,7 @@ const Homepage = () => {
                         <Suspense fallback={<h1>Loading...</h1>}>
                             <Leagues
                                 leagues={leagues[season]}
+                                drafts={drafts[season]}
                                 matchPlayer={matchPlayer}
                                 matchPick={matchPick}
                             />
@@ -227,17 +227,6 @@ const Homepage = () => {
                             matchPick={matchPick}
                         />
                     </Suspense>
-                </div>
-                : null
-            }
-            {tab === 'Drafts' ?
-                <div>
-                    {drafts[season].length > 0 ?
-                        <Suspense fallback={<h1>Loading...</h1>}>
-                            <Drafts drafts={drafts[season]} matchPlayer={matchPlayer} />
-                        </Suspense>
-                        : <h1>Loading...</h1>
-                    }
                 </div>
                 : null
             }

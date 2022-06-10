@@ -5,9 +5,14 @@ h1 {
     text-shadow: 0 0 .25em #fefcc9, .1em -.1em .25em #feec85, -.1em -.1em .75em #ffae34, .2em -.2em 1em #ec760c, -.2em -.6em .75em #cd4606, 0 -.3em 1em #973716, .1em -.9em 1.25em #451b0e;
 }
 
-h5 {
+form {
     width: fit-content;
-    margin: 1em auto;
+    display: inline-flex;
+    flex-direction: column;
+}
+form > input {
+    margin: auto;
+    width: fit-content;
 }
 
 input[type="text"] {
@@ -313,6 +318,7 @@ label.position {
     flex-direction: column;
     margin: .25em 1em;
     text-shadow: 0 0 .1em var(--third-color);
+    align-items: center;
 }
 
 select {
@@ -400,7 +406,21 @@ li.active_page {
     text-shadow: 0 0 .25em var(--secondary-color);
 }
 
-div.transaction_searches {
-    display: flex;
-    flex-wrap: wrap;
+div.transaction_searches, div.search_wrapper {
+   width: fit-content;
+   margin: auto;
+}
+
+button.league_tab {
+    background-color: inherit;
+    border: unset;
+    font-weight: 900;
+    font-size: 125%;
+    color: var(--fourth-color);
+    filter: brightness(.25);
+}
+button.league_tab.active {
+    color: var(--third-color);
+    background-color: var(--secondary-color);
+    filter: brightness(2);
 }

@@ -14,7 +14,6 @@ const Search = (props) => {
         props.sendSearched(searched)
     }, [searched])
     return <>
-        <h5>
             <form onSelect={filterList}>
                 <input id={props.id === undefined ? null : props.id} list={props.placeholder} placeholder={props.placeholder} type="text" />
                 <datalist id={props.placeholder}>
@@ -24,7 +23,6 @@ const Search = (props) => {
                 </datalist>
                 <button onClick={handleClear} type="reset">Clear</button>
             </form>
-        </h5>
     </>
 }
 

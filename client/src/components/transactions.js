@@ -5,6 +5,7 @@ import Search from "./search";
 const Transactions = (props) => {
     const [transactions, setTransactions] = useState([])
     const [page, setPage] = useState(1)
+    const [filters, setFilters] = useState([])
 
     useEffect(() => {
         setTransactions(props.transactions.sort((a, b) => b.status_updated - a.status_updated))
@@ -51,7 +52,7 @@ const Transactions = (props) => {
     const getSearchedPlayer = (data) => {
         let t = transactions
         if (data) {
-            const player = Object.keys(allPlayers).find(x => 
+            const player = Object.keys(allPlayers).find(x =>
                 `${allPlayers[x].full_name} ${allPlayers[x].position} ${allPlayers[x].team === null ? 'FA' : allPlayers[x].team}` === data)
             t.map(trans => {
                 return trans.isTransactionHidden = true
@@ -84,6 +85,17 @@ const Transactions = (props) => {
         })
     }).flat()))
 
+    const filterPosition = (e, type) => {
+        let f = filters
+        if (e.target.checked) {
+            const index = f.indexOf(type)
+            f.splice(index, 1)
+        } else {
+            f.push(type)
+        }
+        setFilters([...f])
+    }
+
     return <>
         <div className="transaction_searches">
             <Search
@@ -105,6 +117,24 @@ const Transactions = (props) => {
                 id={'Players'}
             />
         </div>
+        <div className="checkboxes">
+            <label className="position">
+                Free Agent
+                <input className="clickable" onClick={(e) => filterPosition(e, 'free_agent')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                Waiver
+                <input className="clickable" onClick={(e) => filterPosition(e, 'waiver')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                Trade
+                <input className="clickable" onClick={(e) => filterPosition(e, 'trade')} defaultChecked type="checkbox" />
+            </label>
+            <label className="position">
+                Commish
+                <input className="clickable" onClick={(e) => filterPosition(e, 'commissioner')} defaultChecked type="checkbox" />
+            </label>
+        </div>
         <ol className="page_numbers">
             {Array.from(Array(Math.ceil(transactions.filter(x => x.isTransactionHidden === false).length / 50)).keys()).map(key => key + 1).map(page_number =>
                 <li
@@ -124,7 +154,7 @@ const Transactions = (props) => {
                     <th colSpan={3}>League</th>
                     <th colSpan={2}>Transaction</th>
                 </tr>
-                {transactions.filter(x => x.isTransactionHidden === false).sort((a, b) => b.status_updated - a.status_updated).slice((page - 1) * 50, ((page - 1) * 50) + 50).map((trans, index) =>
+                {transactions.filter(x => x.isTransactionHidden === false && !filters.includes(x.type)).sort((a, b) => b.status_updated - a.status_updated).slice((page - 1) * 50, ((page - 1) * 50) + 50).map((trans, index) =>
                     <tr className="transaction_row hover slide_up" key={trans.transaction_id}>
                         <td>{new Date(trans.status_updated).toLocaleString()}</td>
                         <td>{trans.type.replace('_', ' ')}</td>

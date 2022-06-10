@@ -7,7 +7,7 @@ import allPlayers from '../allPlayers.json';
 const Standings = (props) => {
     const [leagues, setLeagues] = useState([])
     const [group_age, setGroup_age] = useState("All")
-    
+
     useEffect(() => {
         setLeagues(props.leagues.sort((a, b) => b.wins - a.wins || b.fpts - a.fpts ||
             b.players.reduce((acc, cur) => acc + parseInt(props.matchPlayer(cur)), 0) -
@@ -83,11 +83,13 @@ const Standings = (props) => {
     }
 
     return <>
-        <Search
-            list={props.leagues.map(league => league.username)}
-            placeholder="Search Managers"
-            sendSearched={getSearched}
-        />
+        <div className="search_wrapper">
+            <Search
+                list={props.leagues.map(league => league.username)}
+                placeholder="Search Managers"
+                sendSearched={getSearched}
+            />
+        </div>
         <table className='main'>
             <tbody>
                 <tr>
@@ -147,11 +149,11 @@ const Standings = (props) => {
                         <td colSpan={2}>{getAge(league.username)}</td>
                     </tr>
                     {league.isRosterHidden === true ? null :
-                            <tr className='expanded slide_up'>
-                                <td colSpan={19}>
-                                    <Roster roster={league} matchPlayer={props.matchPlayer} matchPick={props.matchPick} />
-                                </td>
-                            </tr>
+                        <tr className='expanded slide_up'>
+                            <td colSpan={19}>
+                                <Roster roster={league} matchPlayer={props.matchPlayer} matchPick={props.matchPick} />
+                            </td>
+                        </tr>
                     }
                 </tbody>
             )}

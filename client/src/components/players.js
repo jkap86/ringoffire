@@ -76,14 +76,16 @@ const Players = (props) => {
                 <input className="clickable" onClick={(e) => filterPosition(e, 'TE')} defaultChecked type="checkbox" />
             </label>
         </div>
-        <Search
-            list={players.map(player => {
-                const team = allPlayers[player.player].team === null ? 'FA' : allPlayers[player.player].team
-                return `${allPlayers[player.player].full_name} ${allPlayers[player.player].position} ${team}`
-            })}
-            placeholder="Search Players"
-            sendSearched={getSearched}
-        />
+        <div className="search_wrapper">
+            <Search
+                list={players.map(player => {
+                    const team = allPlayers[player.player].team === null ? 'FA' : allPlayers[player.player].team
+                    return `${allPlayers[player.player].full_name} ${allPlayers[player.player].position} ${team}`
+                })}
+                placeholder="Search Players"
+                sendSearched={getSearched}
+            />
+        </div>
         <table className="main">
             <tbody>
                 <tr>
