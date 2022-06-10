@@ -13,28 +13,38 @@ const Transactions = (props) => {
     const getSearchedLeague = (data) => {
         let t = transactions
         if (data) {
-            t.filter(x => x.league_name !== data).map(trans => {
+            t.map(trans => {
                 return trans.isTransactionHidden = true
+            })
+            t.filter(x => x.league_name === data).map(trans => {
+                return trans.isTransactionHidden = false
             })
         } else {
             t.map(trans => {
                 return trans.isTransactionHidden = false
             })
         }
+        document.getElementById('Managers').value = ''
+        document.getElementById('Players').value = ''
         setPage(1)
         setTransactions([...t])
     }
     const getSearchedManager = (data) => {
         let t = transactions
         if (data) {
-            t.filter(x => x.users.find(y => y.username === data) === undefined).map(trans => {
+            t.map(trans => {
                 return trans.isTransactionHidden = true
+            })
+            t.filter(x => x.users.find(y => y.username === data) !== undefined).map(trans => {
+                return trans.isTransactionHidden = false
             })
         } else {
             t.map(trans => {
                 return trans.isTransactionHidden = false
             })
         }
+        document.getElementById('Leagues').value = ''
+        document.getElementById('Players').value = ''
         setPage(1)
         setTransactions([...t])
     }
@@ -42,25 +52,31 @@ const Transactions = (props) => {
         let t = transactions
         if (data) {
             const player = Object.keys(allPlayers).find(x => `${allPlayers[x].full_name}` === data)
-            t.filter(x => x.adds === null || !Object.keys(x.adds).includes(player)).map(trans => {
+            t.map(trans => {
                 return trans.isTransactionHidden = true
+            })
+            t.filter(x => x.adds !== null && Object.keys(x.adds).includes(player)).map(trans => {
+                return trans.isTransactionHidden = false
             })
         } else {
             t.map(trans => {
                 trans.isTransactionHidden = false
             })
         }
+        document.getElementById('Leagues').value = ''
+        document.getElementById('Managers').value = ''
+        setPage(1)
         setTransactions([...t])
     }
-    const leagues = Array.from(new Set(transactions.filter(x => x.isTransactionHidden === false).map(trans => {
+    const leagues = Array.from(new Set(transactions.map(trans => {
         return trans.league_name
     })))
-    const managers = Array.from(new Set(transactions.filter(x => x.isTransactionHidden === false).map(trans => {
+    const managers = Array.from(new Set(transactions.map(trans => {
         return trans.users.map(user => {
             return user.username
         })
     }).flat()))
-    const players = Array.from(new Set(transactions.filter(x => x.isTransactionHidden === false).map(trans => {
+    const players = Array.from(new Set(transactions.map(trans => {
         return trans.adds === null ? [] : Object.keys(trans.adds).map(add => {
             return allPlayers[add].full_name
         })
@@ -72,20 +88,23 @@ const Transactions = (props) => {
                 list={leagues}
                 placeholder="Search Leagues"
                 sendSearched={getSearchedLeague}
+                id={'Leagues'}
             />
             <Search
                 list={managers}
                 placeholder="Search Managers"
                 sendSearched={getSearchedManager}
+                id={'Managers'}
             />
             <Search 
                 list={players}
                 placeholder="Search Players"
                 sendSearched={getSearchedPlayer}
+                id={'Players'}
             />
         </div>
         <ol className="page_numbers">
-            {Array.from(Array(parseInt(transactions.filter(x => x.isTransactionHidden === false).length / 50)).keys()).map(key => key + 1).map(page_number =>
+            {Array.from(Array(Math.ceil(transactions.filter(x => x.isTransactionHidden === false).length / 50)).keys()).map(key => key + 1).map(page_number =>
                 <li
                     key={page_number}
                     className={page_number === page ? 'active_page clickable' : 'clickable'}

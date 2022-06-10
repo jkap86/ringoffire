@@ -16,7 +16,7 @@ const Homepage = () => {
     const [drafts, setDrafts] = useState({ '2022': [], '2021': [] })
     const [transactions, setTransactions] = useState({ '2022': [], '2021': [] })
     const [season, setSeason] = useState('2022')
-    const [tab, setTab] = useState('Leagues')
+    const [tab, setTab] = useState('Standings')
     const [dv, setDv] = useState([])
 
     const showRoster = (e) => {

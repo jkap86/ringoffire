@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 
 const Search = (props) => {
     const [searched, setSearched] = useState(null)
-    
+
     const filterList = (e) => {
         setSearched(e.target.value)
     }
     const handleClear = () => {
-        setSearched('')
+        setSearched(null)
     }
 
     useEffect(() => {
@@ -15,14 +15,15 @@ const Search = (props) => {
     }, [searched])
     return <>
         <h5>
-                <input value={searched} onChange={filterList} list={props.placeholder} placeholder={props.placeholder} type="text" />
+            <form onSelect={filterList}>
+                <input id={props.id === undefined ? null : props.id} list={props.placeholder} placeholder={props.placeholder} type="text" />
                 <datalist id={props.placeholder}>
                     {props.list.sort((a, b) => a > b ? 1 : -1).map((i, index) =>
                         <option key={index}>{i}</option>
                     )}
                 </datalist>
                 <button onClick={handleClear} type="reset">Clear</button>
-           
+            </form>
         </h5>
     </>
 }
