@@ -111,6 +111,9 @@ const Homepage = () => {
                 })
                 return s.data
             }
+            const s = await getStandings('2022')
+            const ps = await getStandings('2021')
+            setStandings({ '2022': s, '2021': ps })
             const getLeagues = async (league_season) => {
                 const l = await axios.get('/leagues', {
                     params: {
@@ -139,15 +142,12 @@ const Homepage = () => {
                 return t.data
             }
 
-            const [s, ps, d, pd, t, pt] = await Promise.all([
-                await getStandings('2022'),
-                await getStandings('2021'),
+            const [d, pd, t, pt] = await Promise.all([
                 await getDrafts('2022'),
                 await getDrafts('2021'),
                 await getTransactions('2022'),
                 await getTransactions('2021')
             ])
-            setStandings({ '2022': s, '2021': ps })
             setDrafts({ '2022': d, '2021': pd })
             setTransactions({ '2022': t, '2021': pt })
         }

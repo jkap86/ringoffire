@@ -5,14 +5,19 @@ const cors = require('cors')
 const axios = require('axios')
 const workerpool = require('workerpool')
 const fs = require('fs')
+const http = require('http')
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+setInterval(() => {
+	http.get('https://rofdynasty.herokuapp.com/');
+}, 1000 * 60 * 29)
+
 const getAllPlayers = async () => {
-    let allplayers = await axios.get('https://api.sleeper.app/v1/players/nfl', { timeout: 3000 })
-    let ap = JSON.stringify(allplayers.data)
+	let allplayers = await axios.get('https://api.sleeper.app/v1/players/nfl', { timeout: 3000 })
+	let ap = JSON.stringify(allplayers.data)
 	fs.writeFileSync('../client/src/allPlayers.json', ap)
 }
 getAllPlayers()
@@ -33,10 +38,10 @@ app.get('/leagues', async (req, res) => {
 })
 
 app.get('/standings', async (req, res) => {
-    const season = req.query.season
-    const poolLeagues = workerpool.pool(__dirname + '/workerStandings.js')
-    const result = await poolLeagues.exec('getStandings', [season])
-    res.send(result)
+	const season = req.query.season
+	const poolLeagues = workerpool.pool(__dirname + '/workerStandings.js')
+	const result = await poolLeagues.exec('getStandings', [season])
+	res.send(result)
 })
 
 app.get('/drafts', async (req, res) => {
