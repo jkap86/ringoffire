@@ -23,6 +23,9 @@ const getAllPlayers = async () => {
 getAllPlayers()
 setInterval(getAllPlayers, 1000 * 60 * 60 * 24)
 
+app.get('/allplayers', async (req, res) => {
+	getAllPlayers()
+})
 
 app.get('/dynastyvalues', async (req, res) => {
 	const pool = workerpool.pool(__dirname + '/workerDV.js')

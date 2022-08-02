@@ -27,17 +27,25 @@ const Homepage = () => {
         setStandings({ ...standings, [season]: [...l] })
     }
     const matchPlayer = (player) => {
-        if (player === '0') {
-            return null
+        if (allPlayers[player] === undefined) {
+            const updateAP = async () => {
+                const ap = await axios.get('/allplayers')
+            }
+            updateAP()
         } else {
-            if (dv.find(x => x.searchName === allPlayers[player].search_full_name)) {
-                return dv.find(x => x.searchName === allPlayers[player].search_full_name).value
-            } else if (dv.find(x => allPlayers[player].search_full_name !== undefined && x.searchName.slice(-5, -2) === allPlayers[player].search_full_name.slice(-5, -2) && x.searchName.slice(0, 3) === allPlayers[player].search_full_name.slice(0, 3))) {
-                return dv.find(x => x.searchName.slice(-5, -2) === allPlayers[player].search_full_name.slice(-5, -2) && x.searchName.slice(0, 3) === allPlayers[player].search_full_name.slice(0, 3)).value
+            if (player === '0') {
+                return null
             } else {
-                return 0
+                if (dv.find(x => x.searchName === allPlayers[player].search_full_name)) {
+                    return dv.find(x => x.searchName === allPlayers[player].search_full_name).value
+                } else if (dv.find(x => allPlayers[player].search_full_name !== undefined && x.searchName.slice(-5, -2) === allPlayers[player].search_full_name.slice(-5, -2) && x.searchName.slice(0, 3) === allPlayers[player].search_full_name.slice(0, 3))) {
+                    return dv.find(x => x.searchName.slice(-5, -2) === allPlayers[player].search_full_name.slice(-5, -2) && x.searchName.slice(0, 3) === allPlayers[player].search_full_name.slice(0, 3)).value
+                } else {
+                    return 0
+                }
             }
         }
+
     }
     const matchPick = (season, round) => {
         let value = dv.find(x => `${season}mid${round}` === x.searchName.slice(0, 8))
