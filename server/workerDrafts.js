@@ -22,8 +22,8 @@ const getDrafts = async (season) => {
                 picks: draft_picks.data.map(pick => {
                     return {
                         ...pick,
-                        picked_by: users.data.find(x => x.user_id === pick.picked_by).display_name,
-                        picked_by_avatar: users.data.find(x => x.user_id === pick.picked_by).avatar
+                        picked_by: users.data.find(x => x.user_id === pick.picked_by)?.display_name,
+                        picked_by_avatar: users.data.find(x => x.user_id === pick.picked_by)?.avatar
                     }
                 }),
                 isDraftHidden: false,
