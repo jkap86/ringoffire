@@ -11,9 +11,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-setInterval(() => {
-	http.get('https://rofdynasty.herokuapp.com/');
-}, 1000 * 60 * 29)
 
 const getAllPlayers = async () => {
 	let allplayers = await axios.get('https://api.sleeper.app/v1/players/nfl', { timeout: 3000 })
